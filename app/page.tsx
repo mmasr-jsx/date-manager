@@ -1,22 +1,37 @@
 import Image from "next/image";
-import bgLogo from "../public/bg.png";
+import bgLogo from "../public/Freya_fachada.png";
+import bgsLogo from "../public/logo.png";
+import bgs2Logo from "../public/TitleService1.jpg";
+import CardService from "./_components/CardService";
 
 export default function Page() {
-  return (
-    <main className="mt-24">
-      <Image
-        src={bgLogo}
-        fill
-        alt="Doggie logo"
-        className="object-cover object-top"
-        priority
-      />
+  const content =
+    "Officia fugiat cillum velit minim incididunt anim amet quis. Non eiusmod exercitation nisi id anim magna excepteur sint ex aliquip sint veniam voluptate. Lorem amet nisi mollit reprehenderit elit ea exercitation consectetur aliquip officia. Voluptate aute deserunt proident sit quis incididunt ut aute dolor est quis.";
+  const title = "Servicios de Peluqueria";
 
-      <div className="relative z-10 text-center">
-        <h1 className="text-8xl text-cyan-100 text-primary-50 mb-10 tracking-tight font-normal">
-          Welcome user X
-        </h1>
+  return (
+    <>
+      <div className="w-3/5 place-self-center px-20">
+        <Image
+          src={bgLogo}
+          alt="Doggie logo"
+          className="object-cover object-top w-full"
+          priority
+        />
       </div>
-    </main>
+
+      <CardService
+        backgroundImage={bgsLogo}
+        title={title}
+        content={content}
+        reverse={true}
+      />
+      <CardService
+        backgroundImage={bgs2Logo}
+        title={title}
+        content={content}
+        reverse={false}
+      />
+    </>
   );
 }

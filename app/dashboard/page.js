@@ -1,11 +1,11 @@
 export const metadata = {
-  title: "About",
+  title: "Dashboard",
 };
 
-export function Dashboard() {
+export default function Page() {
   return (
     <div>
-      <h1>Future Dashboard</h1>
+      <p>Dashboard</p>
     </div>
   );
 }

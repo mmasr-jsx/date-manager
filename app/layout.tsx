@@ -1,6 +1,6 @@
 import "../styles/global.css";
 
-import Header from "./_components/header.js";
+import Header from "./_components/Header";
 
 export default function RootLayout({
   children,
@@ -9,10 +9,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-primary-950 text-primary-100 min-h-screen flex flex-col">
+      <body className="bg-background-0 text-primary-100 min-h-screen flex flex-col">
         <Header />
         <div className="flex-1 px-8 py-12 grid">
-          <main className="max-w-7xl mx-auto w-full">{children}</main>
+          <main className="w-full text-black space-y-24">{children}</main>
         </div>
       </body>
     </html>

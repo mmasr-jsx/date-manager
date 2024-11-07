@@ -1,4 +1,4 @@
-import logo from "../../public/logo.png";
+import logo from "../../public/Freya_logo.png";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,7 +13,7 @@ export default function Logo() {
         alt="Freya logo"
         className="rounded-full"
       />
-      <span className="text-3xl font-semibold text-white">
+      <span className="text-3xl font-semibold text-background-50">
         Freya peluqueria canina
       </span>
     </Link>

@@ -1,0 +1,43 @@
+/* SVG FONDO EN ARCO */
+
+.contenedor {
+  position: relative;
+  width: 100%;
+  height: 0px; /* Ajusta según el tamaño deseado */
+  overflow: hidden;
+}
+
+.fondo-arco {
+  position: absolute;
+  bottom: 0; /* Ancla el SVG en la parte inferior */
+  left: 0;
+  width: 100%;
+  height: 50vh; /* Ajusta la altura para subir el arco */
+  background: linear-gradient(#f0f0e6, #f0f0e6),
+    /* Fondo base */
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23FFFFFF' d='M0,288L48,272C96,256,192,224,288,224C384,224,480,256,576,266.7C672,277,768,267,864,245.3C960,224,1056,192,1152,160C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'></path></svg>");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom; /* Ancla la curva en la parte inferior */
+}
+
+.icono-mas {
+  font-size: 40px; /* Ajusta el tamaño */
+  color: #ffffff; /* Color del ícono */
+  position: absolute;
+  bottom: 55vh; /* Ubica el ícono en relación al SVG */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Clase para recortar la imagen */
+.clippy {
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+}
+
+.backgroundImage {
+  background-image: url("../public/userBg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

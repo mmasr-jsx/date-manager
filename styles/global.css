@@ -27,3 +27,16 @@ img {
 .clickable {
   cursor: pointer;
 }
+/*  *******************************  FULLCALENDAR ************************************* */
+.fc-day-today {
+  background: #f5f2e4 !important;
+}
+.fc .fc-button-primary {
+  background-color: #149fa9;
+  font-size: 1rem;
+}
+
+.fc-daygrid-event {
+  font-size: 1rem; /* Aumenta el tamaño del texto */
+  padding: 8px; /* Aumenta el espacio interno */
+}

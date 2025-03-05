@@ -14,10 +14,10 @@ export default function Navigation() {
         </li>
         <li>
           <Link
-            href="/dashboard"
+            href="/calendar"
             className="hover:text-accent-400 transition-colors"
           >
-            Dashboard
+            Calendario
           </Link>
         </li>
         <li>

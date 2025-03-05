@@ -14,7 +14,7 @@ export default function Logo() {
         className="rounded-full"
       />
       <span className="text-3xl font-semibold text-background-50">
-        Freya peluqueria canina
+        Peluqueria canina Freya
       </span>
     </Link>
   );

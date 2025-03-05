@@ -1,4 +1,3 @@
-// pages/api/read.js
 import { createConnection } from "mysql2/promise";
 
 // Function to create a MySQL connection
@@ -11,30 +10,38 @@ async function connectToDatabase() {
   });
 }
 
-export default async function handler(req, res) {
-  if (req.method !== "GET") {
+export default async function createOwner(req, res) {
+  if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
+  const data = req.body;
+  console.log(data);
+
+  const { name, phone } = data;
+
+  if (!name) {
+    return res.status(400).json({
+      error: "Name of owner required.",
+    });
+  }
   try {
     // Connect to the database
     const connection = await connectToDatabase();
 
-    // Execute a query to retrieve data from the "User" table
-    const [rows] = await connection.execute(
-      "SELECT * FROM users WHERE is_active = 1"
+    // Execute a query to insert data to the "pet" table
+    const [result] = await connection.execute(
+      "INSERT INTO pets (name, phone) VALUES (?, ?)",
+      [name, phone]
     );
-
-    // Check if the User exists
-    if (rows.length === 0) {
-      return res.status(404).json({ error: "User not found." });
-    }
 
     // Close the database connection
     await connection.end();
 
-    // Respond with the User data
-    res.status(200).json(rows);
+    // Respond
+    res
+      .status(201)
+      .json({ id: result.insertId, message: "Owner created successfully" });
   } catch (error) {
     console.error("Error connecting to the database:", error);
     res.status(500).json({ error: "Internal Server Error" });

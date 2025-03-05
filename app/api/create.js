@@ -3,14 +3,14 @@ import { createConnection } from "mysql2/promise";
 // Function to create a MySQL connection
 async function connectToDatabase() {
   return createConnection({
-    host: "localhost",
-    user: "root",
-    password: "freyi21",
-    database: "date_manager",
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
   });
 }
 
-export default async function handler(req, res) {
+export default async function createMascota(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }

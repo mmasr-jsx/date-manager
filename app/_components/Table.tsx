@@ -2,34 +2,43 @@
 
 import { useState } from "react";
 import MascotaModal from "./MascotaModal";
-import { Mascota } from "../_model/Pets";
+import { Mascota, NewMascota } from "../_model/Pets";
+import ReModal from "./ReModal";
+import { getPetSize } from "../_utils/utils";
+import MascotaForm from "./MascotaForm";
 
 export default function Table() {
   const [showDialog, setShowDialog] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [selectedPet, setSelectedPet] = useState({} as Mascota);
-  const [isHovered, setIsHovered] = useState(false);
 
   function openDialog(pet) {
-    setSelectedPet((c) => (c = pet));
+    setSelectedPet((cur) => (cur = pet));
     setShowDialog(true);
   }
 
   function onClose() {
-    setShowDialog(false);
-    console.log("on close");
+    showDialog && setShowDialog(false);
+    showModal && setShowModal(false);
   }
 
-  function onOk() {
-    console.log("Ok clicked");
+  function onEdit(pet) {
+    setSelectedPet((cur) => (cur = pet));
+    openModal();
   }
 
-  const mascotas = [
+  function openModal() {
+    setShowModal(true);
+  }
+
+  const mascotas: Mascota[] = [
     {
       id: 1,
       name: "Freya",
       owner: "Maika",
       phone: 666554433,
-      race: "caniche gigange",
+      breed: "caniche gigange",
+      size: "l",
       prize: 80,
       warning: false,
       description: "casi tan prizesa como la dana",
@@ -39,7 +48,8 @@ export default function Table() {
       name: "Dana",
       owner: "Mariete primero ensunombre",
       phone: 666554433,
-      race: "Puta ama",
+      size: "m",
+      breed: "Puta ama",
       prize: 10,
       warning: false,
       description: "La mas mejor",
@@ -49,7 +59,8 @@ export default function Table() {
       name: "Oso",
       owner: "Almu",
       phone: 666554433,
-      race: "Greasly",
+      breed: "Greasly",
+      size: "l",
       prize: 80,
       warning: false,
       description:
@@ -60,7 +71,8 @@ export default function Table() {
       name: "Alana",
       owner: "Carmen",
       phone: 666554433,
-      race: "Cosa peluda",
+      breed: "Cosa peluda",
+      size: "m",
       prize: 70,
       warning: true,
       description:
@@ -71,20 +83,13 @@ export default function Table() {
       name: "Cuca",
       owner: "Cristina cabrera mas",
       phone: 666554433,
-      race: "Bolita",
+      breed: "Bolita",
+      size: "s",
       prize: 180,
       warning: false,
       description: "Tia antisocial del carallo",
     },
   ];
-
-  const mouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const mouseLeave = () => {
-    setIsHovered(false);
-  };
 
   function truncateText(text, num) {
     if (text.length > 10) {
@@ -114,29 +119,15 @@ export default function Table() {
                     Mis Clientes
                   </h3>
                 </div>
-                {isHovered ? (
-                  <div className="flex px-4 mx-4 justify-end border rounded-full border-background-50 bg-background-50">
-                    <button
-                      className="font-semibold text-lg text-white"
-                      onMouseEnter={mouseEnter}
-                      onMouseLeave={mouseLeave}
-                      onClick={() => console.log("clickeo")}
-                    >
-                      Nueva Mascota
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex px-4 mx-4 justify-end border rounded-full border-background-50">
-                    <button
-                      className="font-semibold text-lg text-background-50"
-                      onMouseEnter={mouseEnter}
-                      onMouseLeave={mouseLeave}
-                      onClick={() => console.log("clickeo")}
-                    >
-                      Nueva Mascota
-                    </button>
-                  </div>
-                )}
+
+                <div className="flex px-4 mx-4 justify-end border rounded-full border-background-50 hover:bg-background-50">
+                  <button
+                    className="font-semibold text-lg text-background-50 hover:text-white"
+                    onClick={() => onEdit(new NewMascota())}
+                  >
+                    Nueva Mascota
+                  </button>
+                </div>
               </div>
             </div>
             <div className="block w-full overflow-x-auto ">
@@ -156,6 +147,9 @@ export default function Table() {
                       Raza
                     </th>
                     <th className="px-6 align-middle border border-solid py-3 text-base uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                      Tamaño
+                    </th>
+                    <th className="px-6 align-middle border border-solid py-3 text-base uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
                       prize
                     </th>
                     <th className="px-6 align-middle border border-solid py-3 text-base uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
@@ -170,8 +164,11 @@ export default function Table() {
                 <tbody>
                   {mascotas.map((mascota, index) => (
                     <tr
-                      className={`${oddLine(index) ? "bg-background-0" : ""}`}
+                      className={`cursor-pointer ${
+                        oddLine(index) ? "bg-background-0" : ""
+                      }`}
                       key={mascota.id}
+                      onClick={() => openDialog(mascota)}
                     >
                       <th className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-base whitespace-nowrap p-4 text-left font-bold flex items-center">
                         {mascota.name}
@@ -183,7 +180,10 @@ export default function Table() {
                         {mascota.phone}
                       </td>
                       <td className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-base whitespace-nowrap p-4 font-semibold">
-                        {mascota.race}
+                        {truncateText(mascota.breed, 8)}
+                      </td>
+                      <td className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-base whitespace-nowrap p-4 font-semibold">
+                        {getPetSize(mascota.size)}
                       </td>
                       <td className="border-t-0 px-8 text-black align-middle border-l-0 border-r-0 text-base whitespace-nowrap p-4 font-semibold">
                         {mascota.prize} €
@@ -202,9 +202,7 @@ export default function Table() {
                         </div>
                       </td>
                       <td className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-base whitespace-nowrap p-4 font-semibold">
-                        <button onClick={() => openDialog(mascota)}>
-                          {truncateText(mascota.description, 10)}
-                        </button>
+                        {truncateText(mascota.description, 10)}
                       </td>
                     </tr>
                   ))}
@@ -214,13 +212,24 @@ export default function Table() {
           </div>
         </div>
       </section>
+      {showModal && (
+        <ReModal
+          title={"Añadir nuevo Cliente"}
+          onClose={onClose}
+          showDialog={showModal}
+        >
+          <MascotaForm pet={selectedPet} />
+        </ReModal>
+      )}
 
       {showDialog && (
-        <MascotaModal
+        <ReModal
+          title={"Detalles de la Mascota"}
           onClose={onClose}
           showDialog={showDialog}
-          pet={selectedPet}
-        />
+        >
+          <MascotaModal pet={selectedPet} onEdit={onEdit} />
+        </ReModal>
       )}
     </>
   );

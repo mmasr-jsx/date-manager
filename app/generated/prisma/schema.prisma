@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL")
+}
+
+model Usuario {
+  id   BigInt @id @default(autoincrement())
+  name String @db.VarChar
+  rol  String @db.VarChar
+  mail String @unique @default("")
+}
+
+model Cliente {
+  id        BigInt     @id @default(autoincrement())
+  name      String     @db.VarChar
+  last_name String?    @db.VarChar
+  phone     Decimal?   @db.Decimal
+  sec_phone Decimal?   @db.Decimal
+  pets      Mascotas[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Mascotas {
+  id          BigInt   @id @default(autoincrement())
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  name        String   @db.VarChar
+  ownerId     BigInt
+  breed       String?  @db.VarChar
+  prize       Int?     @db.SmallInt
+  size        String?  @db.VarChar
+  warning     Boolean?
+  description String?
+  owner       Cliente  @relation(fields: [ownerId], references: [id])
+}

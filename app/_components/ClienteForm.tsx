@@ -3,11 +3,16 @@
 import { Cliente } from '../_model/Cliente';
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
-import { createClienteAction } from '../_actions/clienteActions';
+import {
+  createClienteAction,
+  updateClienteAction,
+} from '../_actions/clienteActions';
 import { SubmitButton } from './SubmitButton';
 
 interface Props {
   cliente?: Cliente;
+  isEdit?: boolean;
+  onClose: () => void;
 }
 
 const initialState = {
@@ -20,21 +25,30 @@ interface FormState {
   success: boolean;
 }
 
-export default function ClienteForm({ cliente }: Props) {
+export default function ClienteForm({ cliente, isEdit, onClose }: Props) {
+  console.log(isEdit);
   const router = useRouter();
   const [state, formAction] = useActionState<FormState, FormData>(
     async (prevState: FormState, formData: FormData): Promise<FormState> => {
       const newCliente: Cliente = {
+        ...cliente,
         name: formData.get('name') as string,
         last_name: formData.get('last_name') as string,
         phone: formData.get('phone') as string,
         sec_phone: formData.get('sec_phone') as string | null,
       };
 
-      const result = await createClienteAction(newCliente);
+      let result;
+
+      if (isEdit) {
+        result = await updateClienteAction(newCliente);
+      } else {
+        result = await createClienteAction(newCliente);
+      }
 
       if (result.success) {
-        router.push('/mascotas');
+        router.push('/clientes');
+        onClose();
       }
 
       return {

@@ -51,7 +51,7 @@ export default function ReModal({
             </div>
             <div className="flex-1 grid justify-items-end place-items-center px-5">
               <button
-                className="py-2 px-4 bg-red-600 hover:bg-red-800 rounded font-semibold text-lg text-white"
+                className="py-2 px-4 bg-red-600 hover:bg-red-800 rounded-2xl font-semibold text-lg text-white"
                 onClick={onClose}
               >
                 X

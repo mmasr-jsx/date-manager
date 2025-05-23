@@ -4,13 +4,12 @@ import '../../styles/modal.css';
 import '../../styles/global.css';
 import Image from 'next/image';
 import cardImage from '../../public/Freya_logo.png';
-import { stringToUppercase, formatPhone } from '../_utils/utils';
+import { stringToUppercase, formatPhone, truncateText } from '../_utils/utils';
 import { Cliente } from '../_model/Cliente';
-import { listMascotas } from '../_utils/clientesUtils';
 
 interface Props {
   cliente: Cliente;
-  onEdit: () => void;
+  onEdit: (isEdit: boolean) => void;
 }
 
 export default function ClienteCard({ cliente, onEdit }: Props) {
@@ -35,7 +34,7 @@ export default function ClienteCard({ cliente, onEdit }: Props) {
               viewBox="0 0 24 24"
               width="24"
               xmlns="http://www.w3.org/2000/svg"
-              onClick={() => onEdit()}
+              onClick={() => onEdit(true)}
             >
               <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
               <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
@@ -54,7 +53,7 @@ export default function ClienteCard({ cliente, onEdit }: Props) {
           </p>
         </div>
       </div>
-      <div className="flex-1 rounded shadow-lg px-5">
+      <div className="flex-1 rounded shadow-lg px-5 h-full">
         <div className="flex font-bold text-2xl items-center justify-center h-12 text-white  bg-background-50  rounded-xl shadow-md">
           <h2>Datos del Cliente</h2>
         </div>
@@ -94,8 +93,8 @@ export default function ClienteCard({ cliente, onEdit }: Props) {
             </p>
           </div>
         </div>
-        <div className="flex font-bold text-2xl items-center justify-center h-12 text-white  bg-background-50 shadow-md mt-5 mb-5 rounded-xl">
-          <h2 className="mr-4">Peludos del Cliente</h2>
+        <div className="flex font-bold text-2xl items-center justify-center h-12 text-white bg-background-50 rounded-xl shadow-md mt-4">
+          <h2>Peludos del Cliente</h2>
           <svg
             width="48px"
             height="48px"
@@ -113,10 +112,43 @@ export default function ClienteCard({ cliente, onEdit }: Props) {
           </svg>
         </div>
 
-        <div className="text-black font-semibold text-xl  min-h-48 shadow-2xl">
-          <p className="py-4 px-8">
-            {cliente.pets ? listMascotas(cliente.pets) : ''}
-          </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          {cliente.pets ? (
+            cliente.pets.map((pet) => (
+              <div
+                key={pet.id}
+                className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+                onClick={() => console.log(pet)}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-xl font-semibold text-background-50">
+                    {stringToUppercase(pet.name)}
+                  </h3>
+                  {pet.warning && (
+                    <span
+                      className="text-2xl"
+                      title="Requiere atención especial"
+                    >
+                      🚨
+                    </span>
+                  )}
+                </div>
+                <div className="text-gray-600">
+                  <p className="mb-1">
+                    <span className="font-medium">Raza:</span>{' '}
+                    {stringToUppercase(pet.breed)}
+                  </p>
+                  {pet.description && (
+                    <p className="text-sm text-gray-500 mt-2 italic">
+                      "{truncateText(pet.description, 50)}"
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 italic">No hay mascotas registradas</p>
+          )}
         </div>
       </div>
     </>

@@ -211,7 +211,7 @@ export default function MascotasTable({ mascotasList }: Props) {
           onClose={onClose}
           showModal={showClientForm}
         >
-          <ClienteForm />
+          <ClienteForm isEdit={true} onClose={onClose} />
         </ReModal>
       )}
     </>

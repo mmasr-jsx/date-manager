@@ -18,6 +18,7 @@ export default function ClientesTable({ clientes }: Props) {
   const [showClienteCard, setshowClienteCard] = useState(false);
   const [showClienteForm, setShowClienteForm] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
 
   function openMascotaForm(clienteId) {
     setSelectedCliente(clientes.find((cliente) => cliente.id === clienteId));
@@ -26,15 +27,23 @@ export default function ClientesTable({ clientes }: Props) {
 
   function openClienteCard(clienteId) {
     setSelectedCliente(clientes.find((cliente) => cliente.id === clienteId));
+    setIsEdit(true);
     setshowClienteCard(true);
   }
 
-  function openClienteEditForm() {
+  function openClienteForm() {
     setshowClienteCard(false);
     setShowClienteForm(true);
   }
 
+  function handleEdit(isEdit: boolean) {
+    setIsEdit(isEdit);
+    !isEdit && setSelectedCliente(null);
+    openClienteForm();
+  }
+
   function onClose() {
+    setIsEdit(false);
     showMascotaForm && setshowMascotaForm(false);
     showClienteCard && setshowClienteCard(false);
     showClienteForm && setShowClienteForm(false);
@@ -59,7 +68,7 @@ export default function ClientesTable({ clientes }: Props) {
                 <div className="flex mx-4 justify-end border rounded-full border-background-50 hover:bg-background-50">
                   <button
                     className="w-full px-4 font-semibold text-xl text-background-50 hover:text-white"
-                    onClick={() => console.log('boton nuevo cliente')}
+                    onClick={() => handleEdit(false)}
                   >
                     Nuevo Cliente
                   </button>
@@ -86,7 +95,7 @@ export default function ClientesTable({ clientes }: Props) {
                       Mascotas
                     </th>
                     <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
-                      Añadir Mascota
+                      Administrar Mascota
                     </th>
                   </tr>
                 </thead>
@@ -94,11 +103,13 @@ export default function ClientesTable({ clientes }: Props) {
                 <tbody>
                   {clientes.map((cliente, index) => (
                     <tr
-                      className={`${oddLine(index) ? 'bg-background-0' : ''}`}
+                      className={`hover:bg-background-25 ${
+                        oddLine(index) ? 'bg-background-0' : ''
+                      }`}
                       key={cliente.id}
                     >
                       <th
-                        className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 text-left font-bold flex items-center"
+                        className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 text-left font-bold flex items-center cursor-pointer"
                         onClick={() => openClienteCard(cliente.id)}
                       >
                         {stringToUppercase(cliente.name, true)}
@@ -115,7 +126,10 @@ export default function ClientesTable({ clientes }: Props) {
                       <td className="border-t-0 px-8 text-black align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 font-semibold">
                         {cliente.sec_phone}
                       </td>
-                      <td className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 font-semibold">
+                      <td
+                        className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 font-semibold cursor-pointer"
+                        onClick={() => openClienteCard(cliente.id)}
+                      >
                         {truncateText(listMascotas(cliente.pets, cliente), 16)}
                       </td>
                       <td className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 font-semibold">
@@ -151,7 +165,7 @@ export default function ClientesTable({ clientes }: Props) {
           onClose={onClose}
           showModal={showClienteCard}
         >
-          <ClienteCard cliente={selectedCliente} onEdit={openClienteEditForm} />
+          <ClienteCard cliente={selectedCliente} onEdit={handleEdit} />
         </ReModal>
       )}
       {showClienteForm && (
@@ -160,7 +174,11 @@ export default function ClientesTable({ clientes }: Props) {
           onClose={onClose}
           showModal={showClienteForm}
         >
-          <ClienteForm cliente={selectedCliente} />
+          <ClienteForm
+            cliente={selectedCliente}
+            isEdit={isEdit}
+            onClose={onClose}
+          />
         </ReModal>
       )}
     </>

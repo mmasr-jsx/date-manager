@@ -3,20 +3,24 @@ import { Mascota } from '../_model/Mascota';
 import { Cliente } from '../_model/Cliente';
 import { stringToUppercase } from './utils';
 
+export function toMascotaDto(mascota: Mascota, cliente: Cliente): MascotaDto {
+  return {
+    ...mascota,
+    owner: cliente ? cliente.name : '',
+    owner_lastName: cliente ? cliente.last_name : '',
+    ownerId: cliente ? cliente.id : '',
+    phone: cliente ? cliente.phone : null,
+    sec_phone: cliente ? cliente.sec_phone : null,
+  };
+}
+
 export function toMascotasDtoList(
   clientes: Cliente[],
   mascotas: Mascota[]
 ): MascotaDto[] {
   const mascotasListDto: MascotaDto[] = mascotas.map((mascota: Mascota) => {
-    const owner = clientes.find((cliente) => cliente.id === mascota.ownerId);
-    return {
-      ...mascota,
-      owner: owner ? owner.name : '',
-      owner_lastName: owner ? owner.last_name : '',
-      ownerId: owner ? owner.id : '',
-      phone: owner ? owner.phone : null,
-      sec_phone: owner ? owner.sec_phone : null,
-    };
+    const cliente = clientes.find((cliente) => cliente.id === mascota.ownerId);
+    return toMascotaDto(mascota, cliente);
   });
 
   return mascotasListDto;

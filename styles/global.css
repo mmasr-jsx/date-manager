@@ -24,9 +24,6 @@ img {
   height: auto;
 }
 
-.clickable {
-  cursor: pointer;
-}
 /*  *******************************  FULLCALENDAR ************************************* */
 .fc-day-today {
   background: #f5f2e4 !important;
@@ -37,6 +34,6 @@ img {
 }
 
 .fc-daygrid-event {
-  font-size: 1rem; /* Aumenta el tamaño del texto */
-  padding: 8px; /* Aumenta el espacio interno */
+  font-size: 1rem;
+  padding: 8px;
 }

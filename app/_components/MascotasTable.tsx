@@ -25,17 +25,17 @@ export default function MascotasTable({ mascotasList }: Props) {
   const [showClientForm, setshowClientForm] = useState(false);
   const [mascotas, setMascotas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedPet, setSelectedPet] = useState({} as MascotaDto);
+  const [selectedDto, setSelectedPet] = useState({} as MascotaDto);
 
   useEffect(() => {
     if (mascotasList) {
       setMascotas(mascotasList);
       setIsLoading(false);
     }
-  }, [mascotas, mascotasList]);
+  }, [mascotasList]);
 
-  function openMascotaCard(pet) {
-    setSelectedPet((cur) => (cur = pet));
+  function openMascotaCard(mascotaDto) {
+    setSelectedPet(mascotaDto);
     setshowMascotaCard(true);
   }
 
@@ -43,13 +43,12 @@ export default function MascotasTable({ mascotasList }: Props) {
     setshowMascotaEditFormForm(true);
   }
 
-  function openMascotaForm(pet) {
-    setSelectedPet((cur) => (cur = pet));
+  function openMascotaForm(mascotaDto) {
+    setSelectedPet(mascotaDto);
     setshowMascotaForm(true);
   }
 
   function openClientFormModal() {
-    console.log('opening cliente modal');
     setshowClientForm(true);
   }
 
@@ -60,8 +59,12 @@ export default function MascotasTable({ mascotasList }: Props) {
     showMascotaCard && setshowMascotaCard(false);
   }
 
+  function handleMascotaUpdate(updatedDto: MascotaDto) {
+    setSelectedPet(updatedDto);
+  }
+
   if (isLoading) {
-    return <div> Cargando datos, futuro spinner</div>;
+    return <div>Cargando datos, futuro spinner</div>;
   }
 
   return (
@@ -181,7 +184,11 @@ export default function MascotasTable({ mascotasList }: Props) {
           onClose={onClose}
           showModal={showMascotaForm}
         >
-          <MascotaDtoForm pet={selectedPet} />
+          <MascotaDtoForm
+            mascotaDto={selectedDto}
+            onClose={onClose}
+            onUpdate={handleMascotaUpdate}
+          />
         </ReModal>
       )}
 
@@ -191,7 +198,10 @@ export default function MascotasTable({ mascotasList }: Props) {
           onClose={onClose}
           showModal={showMascotaCard}
         >
-          <MascotaDtoCard pet={selectedPet} onEdit={openMascotaEditForm} />
+          <MascotaDtoCard
+            mascotaDto={selectedDto}
+            onEdit={openMascotaEditForm}
+          />
         </ReModal>
       )}
 
@@ -201,7 +211,11 @@ export default function MascotasTable({ mascotasList }: Props) {
           onClose={onClose}
           showModal={showMascotaEditForm}
         >
-          <MascotaDtoForm pet={selectedPet} />
+          <MascotaDtoForm
+            mascotaDto={selectedDto}
+            onClose={onClose}
+            onUpdate={handleMascotaUpdate}
+          />
         </ReModal>
       )}
 

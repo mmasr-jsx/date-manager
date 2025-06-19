@@ -12,14 +12,23 @@ import PhoneIcon from './icons/PhoneIcon';
 import MoneyIcon from './icons/MoneyIcon';
 import DogIcon from './icons/DogIcon';
 import WarningIcon from './icons/WarningIcon';
+import { useEffect, useState } from 'react';
 
 interface Props {
-  pet: MascotaDto;
+  mascotaDto: MascotaDto;
   onEdit: () => void;
 }
 
-export default function MascotaDtoCard({ pet, onEdit }: Props) {
-  const petSize = getPetSize(pet.size);
+export default function MascotaDtoCard({
+  mascotaDto: initialMascotaDto,
+  onEdit,
+}: Props) {
+  const [mascotaDto, setMascotaDto] = useState(initialMascotaDto);
+  const mascotaDtoSize = getPetSize(mascotaDto.size);
+
+  useEffect(() => {
+    setMascotaDto(initialMascotaDto);
+  }, [initialMascotaDto]);
 
   return (
     <>
@@ -39,10 +48,10 @@ export default function MascotaDtoCard({ pet, onEdit }: Props) {
         </div>
         <div className="pt-3 pb-5 px-5 flex flex-col items-center">
           <p className="font-bold text-3xl text-background-50">
-            {pet.name ? stringToUppercase(pet.name) : ''}
+            {mascotaDto.name ? stringToUppercase(mascotaDto.name) : ''}
           </p>
           <p className="mb-2 font-semibold text-background-50 text-xl">
-            {pet.breed ? stringToUppercase(pet.breed) : ''}
+            {mascotaDto.breed ? stringToUppercase(mascotaDto.breed) : ''}
           </p>
         </div>
       </div>
@@ -54,32 +63,36 @@ export default function MascotaDtoCard({ pet, onEdit }: Props) {
           <div className="flex text-black font-semibold text-xl items-center ">
             <UserIcon />
             <p className="ps-4">
-              Dueño: {pet.owner ? stringToUppercase(pet.owner) : ''}
+              Dueño:{' '}
+              {mascotaDto.owner ? stringToUppercase(mascotaDto.owner) : ''}
             </p>
           </div>
           <div className="flex text-black font-semibold text-xl items-center">
             <PhoneIcon />
             <p className="ps-4">
-              Telefono: {pet.phone ? formatPhone(Number(pet.phone)) : ''}
+              Telefono:{' '}
+              {mascotaDto.phone ? formatPhone(Number(mascotaDto.phone)) : ''}
             </p>
           </div>
           <div className="flex text-black font-semibold text-xl items-center">
             <MoneyIcon />
-            <p className="ps-4">Último trabajo a {pet.prize} €</p>
+            <p className="ps-4">Último trabajo a {mascotaDto.prize} €</p>
           </div>
           <div className="flex text-black font-semibold text-xl items-center">
             <DogIcon fill="#388585" />
-            <p className="ps-4">Tamaño {petSize}</p>
+            <p className="ps-4">Tamaño {mascotaDtoSize}</p>
           </div>
         </div>
         <div className="flex font-bold text-2xl items-center justify-center h-12 mt-4 text-white bg-background-50 rounded-xl shadow-md">
           <h2 className="mr-4">Notas</h2>
-          {pet.warning ? <WarningIcon fill="#FBBF24" /> : null}
+          {mascotaDto.warning ? <WarningIcon fill="#FBBF24" /> : null}
         </div>
 
         <div className="text-black font-semibold text-xl  min-h-48 shadow-2xl">
           <p className="py-4 px-8">
-            {pet.description ? stringToUppercase(pet.description) : ''}
+            {mascotaDto.description
+              ? stringToUppercase(mascotaDto.description)
+              : ''}
           </p>
         </div>
       </div>

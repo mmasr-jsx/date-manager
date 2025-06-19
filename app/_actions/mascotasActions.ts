@@ -85,3 +85,21 @@ export async function updateMascotaAction(mascota: Mascota) {
     };
   }
 }
+
+export async function deleteMascotaAction(id: string) {
+  try {
+    await prisma.mascotas.delete({
+      where: { id: parseInt(id) },
+    });
+    return {
+      message: 'Mascota eliminada exitosamente',
+      success: true,
+    };
+  } catch (error: any) {
+    console.error('Error al eliminar la mascota:', error);
+    return {
+      message: error.message || 'Error desconocido al eliminar la mascota.',
+      success: false,
+    };
+  }
+}

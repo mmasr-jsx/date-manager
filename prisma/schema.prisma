@@ -38,4 +38,14 @@ model Mascotas {
   warning     Boolean?
   description String?
   owner       Cliente  @relation(fields: [ownerId], references: [id])
+  citas       Cita[]
+}
+
+model Cita {
+  id          BigInt    @id @default(autoincrement())
+  mascotaId   BigInt
+  start_time  DateTime  @db.Timestamptz(6)
+  end_time    DateTime? @db.Timestamptz(6)
+  description String?   @db.VarChar
+  mascota     Mascotas  @relation(fields: [mascotaId], references: [id])
 }

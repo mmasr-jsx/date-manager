@@ -2,19 +2,21 @@ interface Props {
   width?: string;
   height?: string;
   onClick?: () => void;
+  stroke?: string;
 }
 
 export default function EditIcon({
   width = '24',
   height = '24',
+  stroke = 'currentColor',
   onClick,
 }: Props) {
   return (
     <svg
-      className="feather feather-edit clickable"
+      className="feather feather-edit cursor-pointer hover:stroke-warning-500"
       fill="none"
       height={height}
-      stroke="currentColor"
+      stroke={stroke}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"

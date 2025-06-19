@@ -1,15 +1,16 @@
 'use client';
 
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { MascotaDto } from '../_model/MascotaDto';
 import { useActionState } from 'react';
-import { createMascotaAction } from '../_actions/mascotasActions';
-import { Mascota } from '../_model/Mascota';
 import updateDtoAction from '../_actions/dtoActions';
 import { SubmitButton } from './SubmitButton';
+import { toast } from 'sonner';
 
 interface Props {
-  pet: MascotaDto;
+  mascotaDto: MascotaDto;
+  onClose: () => void;
+  onUpdate?: (updatedDto: MascotaDto) => void;
 }
 
 const initialState = {
@@ -22,11 +23,12 @@ interface FormState {
   success: boolean;
 }
 
-export default function MascotaForm({ pet }: Props) {
+export default function MascotaForm({ mascotaDto, onClose, onUpdate }: Props) {
+  const router = useRouter();
   const [state, formAction] = useActionState<FormState, FormData>(
     async (prevState: FormState, formData: FormData): Promise<FormState> => {
-      const mascotaDto: MascotaDto = {
-        ...pet,
+      const updateDto: MascotaDto = {
+        ...mascotaDto,
         name: formData.get('name') as string,
         owner: formData.get('owner') as string,
         owner_lastName: formData.get('owner_lastName') as string,
@@ -39,10 +41,16 @@ export default function MascotaForm({ pet }: Props) {
         description: formData.get('description') as string,
       };
 
-      const result = await updateDtoAction(mascotaDto);
+      const result = await updateDtoAction(updateDto);
 
       if (result.success) {
-        redirect('/mascotas');
+        toast.success(result.message);
+        if (onUpdate) {
+          onUpdate(updateDto);
+        }
+        onClose();
+      } else {
+        toast.error(result.message);
       }
 
       return {
@@ -63,7 +71,7 @@ export default function MascotaForm({ pet }: Props) {
             id="owner"
             className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-background-100 focus:outline-none focus:ring-0 focus:border-background-50 peer"
             placeholder=" "
-            defaultValue={pet.owner}
+            defaultValue={mascotaDto.owner}
             required
           />
           <label className="peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-background-100 peer-focus:dark:text-background-50 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -77,7 +85,7 @@ export default function MascotaForm({ pet }: Props) {
             id="owner_lastName"
             className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-background-100 focus:outline-none focus:ring-0 focus:border-background-50 peer"
             placeholder=" "
-            defaultValue={pet.owner_lastName}
+            defaultValue={mascotaDto.owner_lastName}
             required
           />
           <label className="peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-background-100 peer-focus:dark:text-background-50 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -92,7 +100,7 @@ export default function MascotaForm({ pet }: Props) {
             id="phone"
             className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-background-100 focus:outline-none focus:ring-0 focus:border-background-50 peer"
             placeholder=" "
-            defaultValue={pet.phone}
+            defaultValue={mascotaDto.phone}
             required
           />
           <label className="peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-background-100 peer-focus:dark:text-background-50 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -106,7 +114,7 @@ export default function MascotaForm({ pet }: Props) {
             id="name"
             className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-background-100 focus:outline-none focus:ring-0 focus:border-background-50 peer"
             placeholder=" "
-            defaultValue={pet.name}
+            defaultValue={mascotaDto.name}
             required
           />
           <label className="peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-background-100 peer-focus:dark:text-background-50 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -122,7 +130,7 @@ export default function MascotaForm({ pet }: Props) {
               id="breed"
               className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-background-100 focus:outline-none focus:ring-0 focus:border-background-50 peer"
               placeholder=" "
-              defaultValue={pet.breed}
+              defaultValue={mascotaDto.breed}
               required
             />
             <label className="peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-background-100 peer-focus:dark:text-background-50 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -142,7 +150,7 @@ export default function MascotaForm({ pet }: Props) {
               id="prize"
               className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 hover:appearance-none dark:text-white dark:border-gray-600 dark:focus:border-background-100 focus:outline-none focus:ring-0 focus:border-background-50 peer"
               placeholder=" "
-              defaultValue={pet.prize ? pet.prize : null}
+              defaultValue={mascotaDto.prize ? mascotaDto.prize : null}
             />
             <label className="peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-background-100 peer-focus:dark:text-background-50 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Precio €
@@ -153,7 +161,7 @@ export default function MascotaForm({ pet }: Props) {
               name="size"
               className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-background-100 focus:outline-none focus:ring-0 focus:border-background-50 peer"
             >
-              {pet.size === 'l' ? (
+              {mascotaDto.size === 'l' ? (
                 <option value="l" defaultValue={'l'}>
                   Grande
                 </option>
@@ -162,14 +170,14 @@ export default function MascotaForm({ pet }: Props) {
                   Grande
                 </option>
               )}
-              {pet.size === 'm' ? (
+              {mascotaDto.size === 'm' ? (
                 <option value="m" defaultValue={'m'}>
                   Mediano
                 </option>
               ) : (
                 <option value="m">Mediano</option>
               )}
-              {pet.size === 's' ? (
+              {mascotaDto.size === 's' ? (
                 <option value="s" defaultValue={'s'}>
                   Pequeño
                 </option>
@@ -190,7 +198,9 @@ export default function MascotaForm({ pet }: Props) {
             name="description"
             rows={4}
             cols={50}
-            defaultValue={pet.description ? pet.description : null}
+            defaultValue={
+              mascotaDto.description ? mascotaDto.description : null
+            }
             className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-background-100 focus:outline-none focus:ring-0 focus:border-background-50 peer"
           />
         </div>

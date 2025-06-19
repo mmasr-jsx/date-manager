@@ -96,3 +96,33 @@ export async function updateClienteAction(cliente: Cliente, mascota?: Mascota) {
     };
   }
 }
+
+export async function deleteClienteAction(id: string) {
+  try {
+    // Use a transaction to ensure both operations complete or none does
+    await prisma.$transaction(async (tx) => {
+      // First delete all pets associated with the client
+      await tx.mascotas.deleteMany({
+        where: { ownerId: parseInt(id) },
+      });
+
+      // Then delete the client
+      await tx.cliente.delete({
+        where: { id: parseInt(id) },
+      });
+    });
+
+    return {
+      message: 'Cliente y sus mascotas eliminados exitosamente',
+      success: true,
+    };
+  } catch (error: any) {
+    console.error('Error al eliminar el cliente y sus mascotas:', error);
+    return {
+      message:
+        error.message ||
+        'Error desconocido al eliminar el cliente y sus mascotas.',
+      success: false,
+    };
+  }
+}

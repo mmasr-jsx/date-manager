@@ -8,6 +8,7 @@ import {
   updateClienteAction,
 } from '../_actions/clienteActions';
 import { SubmitButton } from './SubmitButton';
+import { toast } from 'sonner';
 
 interface Props {
   cliente?: Cliente;
@@ -47,8 +48,11 @@ export default function ClienteForm({ cliente, isEdit, onClose }: Props) {
       }
 
       if (result.success) {
+        toast.success(result.message);
         router.push('/clientes');
         onClose();
+      } else {
+        toast.error(result.message);
       }
 
       return {

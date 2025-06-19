@@ -7,6 +7,7 @@ import { Mascota } from '../_model/Mascota';
 import { SubmitButton } from './SubmitButton';
 import { Cliente } from '../_model/Cliente';
 import { updateClienteAction } from '../_actions/clienteActions';
+import { toast } from 'sonner';
 
 interface Props {
   cliente: Cliente;
@@ -39,7 +40,15 @@ export default function MascotaForm({ cliente, redirectTo }: Props) {
       const result = await createMascotaAction(newMascota);
 
       if (result.success && result.data) {
-        await updateClienteAction(cliente, result.data);
+        const resultUpdateCliente = await updateClienteAction(
+          cliente,
+          result.data
+        );
+        if (resultUpdateCliente.success) {
+          toast.success('Mascota añadida correctamente.');
+        } else {
+          toast.error('Error desconocido al crear o añadir la mascota.');
+        }
         redirect(redirectTo);
       }
 

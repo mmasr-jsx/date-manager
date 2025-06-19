@@ -29,6 +29,11 @@ export type Cliente = $Result.DefaultSelection<Prisma.$ClientePayload>
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type Mascotas = $Result.DefaultSelection<Prisma.$MascotasPayload>
+/**
+ * Model Cita
+ * 
+ */
+export type Cita = $Result.DefaultSelection<Prisma.$CitaPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -184,6 +189,16 @@ export class PrismaClient<
     * ```
     */
   get mascotas(): Prisma.MascotasDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cita`: Exposes CRUD operations for the **Cita** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Citas
+    * const citas = await prisma.cita.findMany()
+    * ```
+    */
+  get cita(): Prisma.CitaDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -626,7 +641,8 @@ export namespace Prisma {
   export const ModelName: {
     Usuario: 'Usuario',
     Cliente: 'Cliente',
-    Mascotas: 'Mascotas'
+    Mascotas: 'Mascotas',
+    Cita: 'Cita'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -645,7 +661,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "cliente" | "mascotas"
+      modelProps: "usuario" | "cliente" | "mascotas" | "cita"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -871,6 +887,80 @@ export namespace Prisma {
           }
         }
       }
+      Cita: {
+        payload: Prisma.$CitaPayload<ExtArgs>
+        fields: Prisma.CitaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CitaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CitaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload>
+          }
+          findFirst: {
+            args: Prisma.CitaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CitaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload>
+          }
+          findMany: {
+            args: Prisma.CitaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload>[]
+          }
+          create: {
+            args: Prisma.CitaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload>
+          }
+          createMany: {
+            args: Prisma.CitaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CitaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload>[]
+          }
+          delete: {
+            args: Prisma.CitaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload>
+          }
+          update: {
+            args: Prisma.CitaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload>
+          }
+          deleteMany: {
+            args: Prisma.CitaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CitaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CitaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload>[]
+          }
+          upsert: {
+            args: Prisma.CitaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CitaPayload>
+          }
+          aggregate: {
+            args: Prisma.CitaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCita>
+          }
+          groupBy: {
+            args: Prisma.CitaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CitaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CitaCountArgs<ExtArgs>
+            result: $Utils.Optional<CitaCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -958,6 +1048,7 @@ export namespace Prisma {
     usuario?: UsuarioOmit
     cliente?: ClienteOmit
     mascotas?: MascotasOmit
+    cita?: CitaOmit
   }
 
   /* Types for Logging */
@@ -1075,6 +1166,37 @@ export namespace Prisma {
    */
   export type ClienteCountOutputTypeCountPetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MascotasWhereInput
+  }
+
+
+  /**
+   * Count Type MascotasCountOutputType
+   */
+
+  export type MascotasCountOutputType = {
+    citas: number
+  }
+
+  export type MascotasCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    citas?: boolean | MascotasCountOutputTypeCountCitasArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MascotasCountOutputType without action
+   */
+  export type MascotasCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MascotasCountOutputType
+     */
+    select?: MascotasCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MascotasCountOutputType without action
+   */
+  export type MascotasCountOutputTypeCountCitasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CitaWhereInput
   }
 
 
@@ -3449,6 +3571,8 @@ export namespace Prisma {
     warning?: boolean
     description?: boolean
     owner?: boolean | ClienteDefaultArgs<ExtArgs>
+    citas?: boolean | Mascotas$citasArgs<ExtArgs>
+    _count?: boolean | MascotasCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mascotas"]>
 
   export type MascotasSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3492,6 +3616,8 @@ export namespace Prisma {
   export type MascotasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "created_at" | "name" | "ownerId" | "breed" | "prize" | "size" | "warning" | "description", ExtArgs["result"]["mascotas"]>
   export type MascotasInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | ClienteDefaultArgs<ExtArgs>
+    citas?: boolean | Mascotas$citasArgs<ExtArgs>
+    _count?: boolean | MascotasCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MascotasIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | ClienteDefaultArgs<ExtArgs>
@@ -3504,6 +3630,7 @@ export namespace Prisma {
     name: "Mascotas"
     objects: {
       owner: Prisma.$ClientePayload<ExtArgs>
+      citas: Prisma.$CitaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -3910,6 +4037,7 @@ export namespace Prisma {
   export interface Prisma__MascotasClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     owner<T extends ClienteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClienteDefaultArgs<ExtArgs>>): Prisma__ClienteClient<$Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    citas<T extends Mascotas$citasArgs<ExtArgs> = {}>(args?: Subset<T, Mascotas$citasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4344,6 +4472,30 @@ export namespace Prisma {
   }
 
   /**
+   * Mascotas.citas
+   */
+  export type Mascotas$citasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
+    where?: CitaWhereInput
+    orderBy?: CitaOrderByWithRelationInput | CitaOrderByWithRelationInput[]
+    cursor?: CitaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CitaScalarFieldEnum | CitaScalarFieldEnum[]
+  }
+
+  /**
    * Mascotas without action
    */
   export type MascotasDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4359,6 +4511,1102 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: MascotasInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Cita
+   */
+
+  export type AggregateCita = {
+    _count: CitaCountAggregateOutputType | null
+    _avg: CitaAvgAggregateOutputType | null
+    _sum: CitaSumAggregateOutputType | null
+    _min: CitaMinAggregateOutputType | null
+    _max: CitaMaxAggregateOutputType | null
+  }
+
+  export type CitaAvgAggregateOutputType = {
+    id: number | null
+    mascotaId: number | null
+  }
+
+  export type CitaSumAggregateOutputType = {
+    id: bigint | null
+    mascotaId: bigint | null
+  }
+
+  export type CitaMinAggregateOutputType = {
+    id: bigint | null
+    mascotaId: bigint | null
+    start_time: Date | null
+    end_time: Date | null
+    description: string | null
+  }
+
+  export type CitaMaxAggregateOutputType = {
+    id: bigint | null
+    mascotaId: bigint | null
+    start_time: Date | null
+    end_time: Date | null
+    description: string | null
+  }
+
+  export type CitaCountAggregateOutputType = {
+    id: number
+    mascotaId: number
+    start_time: number
+    end_time: number
+    description: number
+    _all: number
+  }
+
+
+  export type CitaAvgAggregateInputType = {
+    id?: true
+    mascotaId?: true
+  }
+
+  export type CitaSumAggregateInputType = {
+    id?: true
+    mascotaId?: true
+  }
+
+  export type CitaMinAggregateInputType = {
+    id?: true
+    mascotaId?: true
+    start_time?: true
+    end_time?: true
+    description?: true
+  }
+
+  export type CitaMaxAggregateInputType = {
+    id?: true
+    mascotaId?: true
+    start_time?: true
+    end_time?: true
+    description?: true
+  }
+
+  export type CitaCountAggregateInputType = {
+    id?: true
+    mascotaId?: true
+    start_time?: true
+    end_time?: true
+    description?: true
+    _all?: true
+  }
+
+  export type CitaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Cita to aggregate.
+     */
+    where?: CitaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Citas to fetch.
+     */
+    orderBy?: CitaOrderByWithRelationInput | CitaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CitaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Citas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Citas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Citas
+    **/
+    _count?: true | CitaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CitaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CitaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CitaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CitaMaxAggregateInputType
+  }
+
+  export type GetCitaAggregateType<T extends CitaAggregateArgs> = {
+        [P in keyof T & keyof AggregateCita]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCita[P]>
+      : GetScalarType<T[P], AggregateCita[P]>
+  }
+
+
+
+
+  export type CitaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CitaWhereInput
+    orderBy?: CitaOrderByWithAggregationInput | CitaOrderByWithAggregationInput[]
+    by: CitaScalarFieldEnum[] | CitaScalarFieldEnum
+    having?: CitaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CitaCountAggregateInputType | true
+    _avg?: CitaAvgAggregateInputType
+    _sum?: CitaSumAggregateInputType
+    _min?: CitaMinAggregateInputType
+    _max?: CitaMaxAggregateInputType
+  }
+
+  export type CitaGroupByOutputType = {
+    id: bigint
+    mascotaId: bigint
+    start_time: Date
+    end_time: Date | null
+    description: string | null
+    _count: CitaCountAggregateOutputType | null
+    _avg: CitaAvgAggregateOutputType | null
+    _sum: CitaSumAggregateOutputType | null
+    _min: CitaMinAggregateOutputType | null
+    _max: CitaMaxAggregateOutputType | null
+  }
+
+  type GetCitaGroupByPayload<T extends CitaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CitaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CitaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CitaGroupByOutputType[P]>
+            : GetScalarType<T[P], CitaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CitaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mascotaId?: boolean
+    start_time?: boolean
+    end_time?: boolean
+    description?: boolean
+    mascota?: boolean | MascotasDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cita"]>
+
+  export type CitaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mascotaId?: boolean
+    start_time?: boolean
+    end_time?: boolean
+    description?: boolean
+    mascota?: boolean | MascotasDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cita"]>
+
+  export type CitaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mascotaId?: boolean
+    start_time?: boolean
+    end_time?: boolean
+    description?: boolean
+    mascota?: boolean | MascotasDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cita"]>
+
+  export type CitaSelectScalar = {
+    id?: boolean
+    mascotaId?: boolean
+    start_time?: boolean
+    end_time?: boolean
+    description?: boolean
+  }
+
+  export type CitaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mascotaId" | "start_time" | "end_time" | "description", ExtArgs["result"]["cita"]>
+  export type CitaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    mascota?: boolean | MascotasDefaultArgs<ExtArgs>
+  }
+  export type CitaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    mascota?: boolean | MascotasDefaultArgs<ExtArgs>
+  }
+  export type CitaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    mascota?: boolean | MascotasDefaultArgs<ExtArgs>
+  }
+
+  export type $CitaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Cita"
+    objects: {
+      mascota: Prisma.$MascotasPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      mascotaId: bigint
+      start_time: Date
+      end_time: Date | null
+      description: string | null
+    }, ExtArgs["result"]["cita"]>
+    composites: {}
+  }
+
+  type CitaGetPayload<S extends boolean | null | undefined | CitaDefaultArgs> = $Result.GetResult<Prisma.$CitaPayload, S>
+
+  type CitaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CitaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CitaCountAggregateInputType | true
+    }
+
+  export interface CitaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Cita'], meta: { name: 'Cita' } }
+    /**
+     * Find zero or one Cita that matches the filter.
+     * @param {CitaFindUniqueArgs} args - Arguments to find a Cita
+     * @example
+     * // Get one Cita
+     * const cita = await prisma.cita.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CitaFindUniqueArgs>(args: SelectSubset<T, CitaFindUniqueArgs<ExtArgs>>): Prisma__CitaClient<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Cita that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CitaFindUniqueOrThrowArgs} args - Arguments to find a Cita
+     * @example
+     * // Get one Cita
+     * const cita = await prisma.cita.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CitaFindUniqueOrThrowArgs>(args: SelectSubset<T, CitaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CitaClient<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Cita that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CitaFindFirstArgs} args - Arguments to find a Cita
+     * @example
+     * // Get one Cita
+     * const cita = await prisma.cita.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CitaFindFirstArgs>(args?: SelectSubset<T, CitaFindFirstArgs<ExtArgs>>): Prisma__CitaClient<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Cita that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CitaFindFirstOrThrowArgs} args - Arguments to find a Cita
+     * @example
+     * // Get one Cita
+     * const cita = await prisma.cita.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CitaFindFirstOrThrowArgs>(args?: SelectSubset<T, CitaFindFirstOrThrowArgs<ExtArgs>>): Prisma__CitaClient<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Citas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CitaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Citas
+     * const citas = await prisma.cita.findMany()
+     * 
+     * // Get first 10 Citas
+     * const citas = await prisma.cita.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const citaWithIdOnly = await prisma.cita.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CitaFindManyArgs>(args?: SelectSubset<T, CitaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Cita.
+     * @param {CitaCreateArgs} args - Arguments to create a Cita.
+     * @example
+     * // Create one Cita
+     * const Cita = await prisma.cita.create({
+     *   data: {
+     *     // ... data to create a Cita
+     *   }
+     * })
+     * 
+     */
+    create<T extends CitaCreateArgs>(args: SelectSubset<T, CitaCreateArgs<ExtArgs>>): Prisma__CitaClient<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Citas.
+     * @param {CitaCreateManyArgs} args - Arguments to create many Citas.
+     * @example
+     * // Create many Citas
+     * const cita = await prisma.cita.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CitaCreateManyArgs>(args?: SelectSubset<T, CitaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Citas and returns the data saved in the database.
+     * @param {CitaCreateManyAndReturnArgs} args - Arguments to create many Citas.
+     * @example
+     * // Create many Citas
+     * const cita = await prisma.cita.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Citas and only return the `id`
+     * const citaWithIdOnly = await prisma.cita.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CitaCreateManyAndReturnArgs>(args?: SelectSubset<T, CitaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Cita.
+     * @param {CitaDeleteArgs} args - Arguments to delete one Cita.
+     * @example
+     * // Delete one Cita
+     * const Cita = await prisma.cita.delete({
+     *   where: {
+     *     // ... filter to delete one Cita
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CitaDeleteArgs>(args: SelectSubset<T, CitaDeleteArgs<ExtArgs>>): Prisma__CitaClient<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Cita.
+     * @param {CitaUpdateArgs} args - Arguments to update one Cita.
+     * @example
+     * // Update one Cita
+     * const cita = await prisma.cita.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CitaUpdateArgs>(args: SelectSubset<T, CitaUpdateArgs<ExtArgs>>): Prisma__CitaClient<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Citas.
+     * @param {CitaDeleteManyArgs} args - Arguments to filter Citas to delete.
+     * @example
+     * // Delete a few Citas
+     * const { count } = await prisma.cita.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CitaDeleteManyArgs>(args?: SelectSubset<T, CitaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Citas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CitaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Citas
+     * const cita = await prisma.cita.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CitaUpdateManyArgs>(args: SelectSubset<T, CitaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Citas and returns the data updated in the database.
+     * @param {CitaUpdateManyAndReturnArgs} args - Arguments to update many Citas.
+     * @example
+     * // Update many Citas
+     * const cita = await prisma.cita.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Citas and only return the `id`
+     * const citaWithIdOnly = await prisma.cita.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CitaUpdateManyAndReturnArgs>(args: SelectSubset<T, CitaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Cita.
+     * @param {CitaUpsertArgs} args - Arguments to update or create a Cita.
+     * @example
+     * // Update or create a Cita
+     * const cita = await prisma.cita.upsert({
+     *   create: {
+     *     // ... data to create a Cita
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Cita we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CitaUpsertArgs>(args: SelectSubset<T, CitaUpsertArgs<ExtArgs>>): Prisma__CitaClient<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Citas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CitaCountArgs} args - Arguments to filter Citas to count.
+     * @example
+     * // Count the number of Citas
+     * const count = await prisma.cita.count({
+     *   where: {
+     *     // ... the filter for the Citas we want to count
+     *   }
+     * })
+    **/
+    count<T extends CitaCountArgs>(
+      args?: Subset<T, CitaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CitaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Cita.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CitaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CitaAggregateArgs>(args: Subset<T, CitaAggregateArgs>): Prisma.PrismaPromise<GetCitaAggregateType<T>>
+
+    /**
+     * Group by Cita.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CitaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CitaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CitaGroupByArgs['orderBy'] }
+        : { orderBy?: CitaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CitaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCitaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Cita model
+   */
+  readonly fields: CitaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Cita.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CitaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    mascota<T extends MascotasDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MascotasDefaultArgs<ExtArgs>>): Prisma__MascotasClient<$Result.GetResult<Prisma.$MascotasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Cita model
+   */
+  interface CitaFieldRefs {
+    readonly id: FieldRef<"Cita", 'BigInt'>
+    readonly mascotaId: FieldRef<"Cita", 'BigInt'>
+    readonly start_time: FieldRef<"Cita", 'DateTime'>
+    readonly end_time: FieldRef<"Cita", 'DateTime'>
+    readonly description: FieldRef<"Cita", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Cita findUnique
+   */
+  export type CitaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
+    /**
+     * Filter, which Cita to fetch.
+     */
+    where: CitaWhereUniqueInput
+  }
+
+  /**
+   * Cita findUniqueOrThrow
+   */
+  export type CitaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
+    /**
+     * Filter, which Cita to fetch.
+     */
+    where: CitaWhereUniqueInput
+  }
+
+  /**
+   * Cita findFirst
+   */
+  export type CitaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
+    /**
+     * Filter, which Cita to fetch.
+     */
+    where?: CitaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Citas to fetch.
+     */
+    orderBy?: CitaOrderByWithRelationInput | CitaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Citas.
+     */
+    cursor?: CitaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Citas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Citas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Citas.
+     */
+    distinct?: CitaScalarFieldEnum | CitaScalarFieldEnum[]
+  }
+
+  /**
+   * Cita findFirstOrThrow
+   */
+  export type CitaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
+    /**
+     * Filter, which Cita to fetch.
+     */
+    where?: CitaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Citas to fetch.
+     */
+    orderBy?: CitaOrderByWithRelationInput | CitaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Citas.
+     */
+    cursor?: CitaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Citas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Citas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Citas.
+     */
+    distinct?: CitaScalarFieldEnum | CitaScalarFieldEnum[]
+  }
+
+  /**
+   * Cita findMany
+   */
+  export type CitaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
+    /**
+     * Filter, which Citas to fetch.
+     */
+    where?: CitaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Citas to fetch.
+     */
+    orderBy?: CitaOrderByWithRelationInput | CitaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Citas.
+     */
+    cursor?: CitaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Citas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Citas.
+     */
+    skip?: number
+    distinct?: CitaScalarFieldEnum | CitaScalarFieldEnum[]
+  }
+
+  /**
+   * Cita create
+   */
+  export type CitaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Cita.
+     */
+    data: XOR<CitaCreateInput, CitaUncheckedCreateInput>
+  }
+
+  /**
+   * Cita createMany
+   */
+  export type CitaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Citas.
+     */
+    data: CitaCreateManyInput | CitaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Cita createManyAndReturn
+   */
+  export type CitaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * The data used to create many Citas.
+     */
+    data: CitaCreateManyInput | CitaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Cita update
+   */
+  export type CitaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Cita.
+     */
+    data: XOR<CitaUpdateInput, CitaUncheckedUpdateInput>
+    /**
+     * Choose, which Cita to update.
+     */
+    where: CitaWhereUniqueInput
+  }
+
+  /**
+   * Cita updateMany
+   */
+  export type CitaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Citas.
+     */
+    data: XOR<CitaUpdateManyMutationInput, CitaUncheckedUpdateManyInput>
+    /**
+     * Filter which Citas to update
+     */
+    where?: CitaWhereInput
+    /**
+     * Limit how many Citas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Cita updateManyAndReturn
+   */
+  export type CitaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * The data used to update Citas.
+     */
+    data: XOR<CitaUpdateManyMutationInput, CitaUncheckedUpdateManyInput>
+    /**
+     * Filter which Citas to update
+     */
+    where?: CitaWhereInput
+    /**
+     * Limit how many Citas to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Cita upsert
+   */
+  export type CitaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Cita to update in case it exists.
+     */
+    where: CitaWhereUniqueInput
+    /**
+     * In case the Cita found by the `where` argument doesn't exist, create a new Cita with this data.
+     */
+    create: XOR<CitaCreateInput, CitaUncheckedCreateInput>
+    /**
+     * In case the Cita was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CitaUpdateInput, CitaUncheckedUpdateInput>
+  }
+
+  /**
+   * Cita delete
+   */
+  export type CitaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
+    /**
+     * Filter which Cita to delete.
+     */
+    where: CitaWhereUniqueInput
+  }
+
+  /**
+   * Cita deleteMany
+   */
+  export type CitaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Citas to delete
+     */
+    where?: CitaWhereInput
+    /**
+     * Limit how many Citas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Cita without action
+   */
+  export type CitaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cita
+     */
+    select?: CitaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cita
+     */
+    omit?: CitaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CitaInclude<ExtArgs> | null
   }
 
 
@@ -4410,6 +5658,17 @@ export namespace Prisma {
   };
 
   export type MascotasScalarFieldEnum = (typeof MascotasScalarFieldEnum)[keyof typeof MascotasScalarFieldEnum]
+
+
+  export const CitaScalarFieldEnum: {
+    id: 'id',
+    mascotaId: 'mascotaId',
+    start_time: 'start_time',
+    end_time: 'end_time',
+    description: 'description'
+  };
+
+  export type CitaScalarFieldEnum = (typeof CitaScalarFieldEnum)[keyof typeof CitaScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4655,6 +5914,7 @@ export namespace Prisma {
     warning?: BoolNullableFilter<"Mascotas"> | boolean | null
     description?: StringNullableFilter<"Mascotas"> | string | null
     owner?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
+    citas?: CitaListRelationFilter
   }
 
   export type MascotasOrderByWithRelationInput = {
@@ -4668,6 +5928,7 @@ export namespace Prisma {
     warning?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     owner?: ClienteOrderByWithRelationInput
+    citas?: CitaOrderByRelationAggregateInput
   }
 
   export type MascotasWhereUniqueInput = Prisma.AtLeast<{
@@ -4684,6 +5945,7 @@ export namespace Prisma {
     warning?: BoolNullableFilter<"Mascotas"> | boolean | null
     description?: StringNullableFilter<"Mascotas"> | string | null
     owner?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
+    citas?: CitaListRelationFilter
   }, "id">
 
   export type MascotasOrderByWithAggregationInput = {
@@ -4716,6 +5978,63 @@ export namespace Prisma {
     size?: StringNullableWithAggregatesFilter<"Mascotas"> | string | null
     warning?: BoolNullableWithAggregatesFilter<"Mascotas"> | boolean | null
     description?: StringNullableWithAggregatesFilter<"Mascotas"> | string | null
+  }
+
+  export type CitaWhereInput = {
+    AND?: CitaWhereInput | CitaWhereInput[]
+    OR?: CitaWhereInput[]
+    NOT?: CitaWhereInput | CitaWhereInput[]
+    id?: BigIntFilter<"Cita"> | bigint | number
+    mascotaId?: BigIntFilter<"Cita"> | bigint | number
+    start_time?: DateTimeFilter<"Cita"> | Date | string
+    end_time?: DateTimeNullableFilter<"Cita"> | Date | string | null
+    description?: StringNullableFilter<"Cita"> | string | null
+    mascota?: XOR<MascotasScalarRelationFilter, MascotasWhereInput>
+  }
+
+  export type CitaOrderByWithRelationInput = {
+    id?: SortOrder
+    mascotaId?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    mascota?: MascotasOrderByWithRelationInput
+  }
+
+  export type CitaWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: CitaWhereInput | CitaWhereInput[]
+    OR?: CitaWhereInput[]
+    NOT?: CitaWhereInput | CitaWhereInput[]
+    mascotaId?: BigIntFilter<"Cita"> | bigint | number
+    start_time?: DateTimeFilter<"Cita"> | Date | string
+    end_time?: DateTimeNullableFilter<"Cita"> | Date | string | null
+    description?: StringNullableFilter<"Cita"> | string | null
+    mascota?: XOR<MascotasScalarRelationFilter, MascotasWhereInput>
+  }, "id">
+
+  export type CitaOrderByWithAggregationInput = {
+    id?: SortOrder
+    mascotaId?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    _count?: CitaCountOrderByAggregateInput
+    _avg?: CitaAvgOrderByAggregateInput
+    _max?: CitaMaxOrderByAggregateInput
+    _min?: CitaMinOrderByAggregateInput
+    _sum?: CitaSumOrderByAggregateInput
+  }
+
+  export type CitaScalarWhereWithAggregatesInput = {
+    AND?: CitaScalarWhereWithAggregatesInput | CitaScalarWhereWithAggregatesInput[]
+    OR?: CitaScalarWhereWithAggregatesInput[]
+    NOT?: CitaScalarWhereWithAggregatesInput | CitaScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"Cita"> | bigint | number
+    mascotaId?: BigIntWithAggregatesFilter<"Cita"> | bigint | number
+    start_time?: DateTimeWithAggregatesFilter<"Cita"> | Date | string
+    end_time?: DateTimeNullableWithAggregatesFilter<"Cita"> | Date | string | null
+    description?: StringNullableWithAggregatesFilter<"Cita"> | string | null
   }
 
   export type UsuarioCreateInput = {
@@ -4837,6 +6156,7 @@ export namespace Prisma {
     warning?: boolean | null
     description?: string | null
     owner: ClienteCreateNestedOneWithoutPetsInput
+    citas?: CitaCreateNestedManyWithoutMascotaInput
   }
 
   export type MascotasUncheckedCreateInput = {
@@ -4849,6 +6169,7 @@ export namespace Prisma {
     size?: string | null
     warning?: boolean | null
     description?: string | null
+    citas?: CitaUncheckedCreateNestedManyWithoutMascotaInput
   }
 
   export type MascotasUpdateInput = {
@@ -4861,6 +6182,7 @@ export namespace Prisma {
     warning?: NullableBoolFieldUpdateOperationsInput | boolean | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     owner?: ClienteUpdateOneRequiredWithoutPetsNestedInput
+    citas?: CitaUpdateManyWithoutMascotaNestedInput
   }
 
   export type MascotasUncheckedUpdateInput = {
@@ -4873,6 +6195,7 @@ export namespace Prisma {
     size?: NullableStringFieldUpdateOperationsInput | string | null
     warning?: NullableBoolFieldUpdateOperationsInput | boolean | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    citas?: CitaUncheckedUpdateManyWithoutMascotaNestedInput
   }
 
   export type MascotasCreateManyInput = {
@@ -4907,6 +6230,61 @@ export namespace Prisma {
     prize?: NullableIntFieldUpdateOperationsInput | number | null
     size?: NullableStringFieldUpdateOperationsInput | string | null
     warning?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CitaCreateInput = {
+    id?: bigint | number
+    start_time: Date | string
+    end_time?: Date | string | null
+    description?: string | null
+    mascota: MascotasCreateNestedOneWithoutCitasInput
+  }
+
+  export type CitaUncheckedCreateInput = {
+    id?: bigint | number
+    mascotaId: bigint | number
+    start_time: Date | string
+    end_time?: Date | string | null
+    description?: string | null
+  }
+
+  export type CitaUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    mascota?: MascotasUpdateOneRequiredWithoutCitasNestedInput
+  }
+
+  export type CitaUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    mascotaId?: BigIntFieldUpdateOperationsInput | bigint | number
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CitaCreateManyInput = {
+    id?: bigint | number
+    mascotaId: bigint | number
+    start_time: Date | string
+    end_time?: Date | string | null
+    description?: string | null
+  }
+
+  export type CitaUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CitaUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    mascotaId?: BigIntFieldUpdateOperationsInput | bigint | number
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -5142,6 +6520,16 @@ export namespace Prisma {
     isNot?: ClienteWhereInput
   }
 
+  export type CitaListRelationFilter = {
+    every?: CitaWhereInput
+    some?: CitaWhereInput
+    none?: CitaWhereInput
+  }
+
+  export type CitaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type MascotasCountOrderByAggregateInput = {
     id?: SortOrder
     created_at?: SortOrder
@@ -5228,6 +6616,70 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type MascotasScalarRelationFilter = {
+    is?: MascotasWhereInput
+    isNot?: MascotasWhereInput
+  }
+
+  export type CitaCountOrderByAggregateInput = {
+    id?: SortOrder
+    mascotaId?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
+    description?: SortOrder
+  }
+
+  export type CitaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    mascotaId?: SortOrder
+  }
+
+  export type CitaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    mascotaId?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
+    description?: SortOrder
+  }
+
+  export type CitaMinOrderByAggregateInput = {
+    id?: SortOrder
+    mascotaId?: SortOrder
+    start_time?: SortOrder
+    end_time?: SortOrder
+    description?: SortOrder
+  }
+
+  export type CitaSumOrderByAggregateInput = {
+    id?: SortOrder
+    mascotaId?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type BigIntFieldUpdateOperationsInput = {
     set?: bigint | number
     increment?: bigint | number
@@ -5300,6 +6752,20 @@ export namespace Prisma {
     connect?: ClienteWhereUniqueInput
   }
 
+  export type CitaCreateNestedManyWithoutMascotaInput = {
+    create?: XOR<CitaCreateWithoutMascotaInput, CitaUncheckedCreateWithoutMascotaInput> | CitaCreateWithoutMascotaInput[] | CitaUncheckedCreateWithoutMascotaInput[]
+    connectOrCreate?: CitaCreateOrConnectWithoutMascotaInput | CitaCreateOrConnectWithoutMascotaInput[]
+    createMany?: CitaCreateManyMascotaInputEnvelope
+    connect?: CitaWhereUniqueInput | CitaWhereUniqueInput[]
+  }
+
+  export type CitaUncheckedCreateNestedManyWithoutMascotaInput = {
+    create?: XOR<CitaCreateWithoutMascotaInput, CitaUncheckedCreateWithoutMascotaInput> | CitaCreateWithoutMascotaInput[] | CitaUncheckedCreateWithoutMascotaInput[]
+    connectOrCreate?: CitaCreateOrConnectWithoutMascotaInput | CitaCreateOrConnectWithoutMascotaInput[]
+    createMany?: CitaCreateManyMascotaInputEnvelope
+    connect?: CitaWhereUniqueInput | CitaWhereUniqueInput[]
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -5322,6 +6788,52 @@ export namespace Prisma {
     upsert?: ClienteUpsertWithoutPetsInput
     connect?: ClienteWhereUniqueInput
     update?: XOR<XOR<ClienteUpdateToOneWithWhereWithoutPetsInput, ClienteUpdateWithoutPetsInput>, ClienteUncheckedUpdateWithoutPetsInput>
+  }
+
+  export type CitaUpdateManyWithoutMascotaNestedInput = {
+    create?: XOR<CitaCreateWithoutMascotaInput, CitaUncheckedCreateWithoutMascotaInput> | CitaCreateWithoutMascotaInput[] | CitaUncheckedCreateWithoutMascotaInput[]
+    connectOrCreate?: CitaCreateOrConnectWithoutMascotaInput | CitaCreateOrConnectWithoutMascotaInput[]
+    upsert?: CitaUpsertWithWhereUniqueWithoutMascotaInput | CitaUpsertWithWhereUniqueWithoutMascotaInput[]
+    createMany?: CitaCreateManyMascotaInputEnvelope
+    set?: CitaWhereUniqueInput | CitaWhereUniqueInput[]
+    disconnect?: CitaWhereUniqueInput | CitaWhereUniqueInput[]
+    delete?: CitaWhereUniqueInput | CitaWhereUniqueInput[]
+    connect?: CitaWhereUniqueInput | CitaWhereUniqueInput[]
+    update?: CitaUpdateWithWhereUniqueWithoutMascotaInput | CitaUpdateWithWhereUniqueWithoutMascotaInput[]
+    updateMany?: CitaUpdateManyWithWhereWithoutMascotaInput | CitaUpdateManyWithWhereWithoutMascotaInput[]
+    deleteMany?: CitaScalarWhereInput | CitaScalarWhereInput[]
+  }
+
+  export type CitaUncheckedUpdateManyWithoutMascotaNestedInput = {
+    create?: XOR<CitaCreateWithoutMascotaInput, CitaUncheckedCreateWithoutMascotaInput> | CitaCreateWithoutMascotaInput[] | CitaUncheckedCreateWithoutMascotaInput[]
+    connectOrCreate?: CitaCreateOrConnectWithoutMascotaInput | CitaCreateOrConnectWithoutMascotaInput[]
+    upsert?: CitaUpsertWithWhereUniqueWithoutMascotaInput | CitaUpsertWithWhereUniqueWithoutMascotaInput[]
+    createMany?: CitaCreateManyMascotaInputEnvelope
+    set?: CitaWhereUniqueInput | CitaWhereUniqueInput[]
+    disconnect?: CitaWhereUniqueInput | CitaWhereUniqueInput[]
+    delete?: CitaWhereUniqueInput | CitaWhereUniqueInput[]
+    connect?: CitaWhereUniqueInput | CitaWhereUniqueInput[]
+    update?: CitaUpdateWithWhereUniqueWithoutMascotaInput | CitaUpdateWithWhereUniqueWithoutMascotaInput[]
+    updateMany?: CitaUpdateManyWithWhereWithoutMascotaInput | CitaUpdateManyWithWhereWithoutMascotaInput[]
+    deleteMany?: CitaScalarWhereInput | CitaScalarWhereInput[]
+  }
+
+  export type MascotasCreateNestedOneWithoutCitasInput = {
+    create?: XOR<MascotasCreateWithoutCitasInput, MascotasUncheckedCreateWithoutCitasInput>
+    connectOrCreate?: MascotasCreateOrConnectWithoutCitasInput
+    connect?: MascotasWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type MascotasUpdateOneRequiredWithoutCitasNestedInput = {
+    create?: XOR<MascotasCreateWithoutCitasInput, MascotasUncheckedCreateWithoutCitasInput>
+    connectOrCreate?: MascotasCreateOrConnectWithoutCitasInput
+    upsert?: MascotasUpsertWithoutCitasInput
+    connect?: MascotasWhereUniqueInput
+    update?: XOR<XOR<MascotasUpdateToOneWithWhereWithoutCitasInput, MascotasUpdateWithoutCitasInput>, MascotasUncheckedUpdateWithoutCitasInput>
   }
 
   export type NestedBigIntFilter<$PrismaModel = never> = {
@@ -5538,6 +7050,31 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type MascotasCreateWithoutOwnerInput = {
     id?: bigint | number
     created_at?: Date | string
@@ -5547,6 +7084,7 @@ export namespace Prisma {
     size?: string | null
     warning?: boolean | null
     description?: string | null
+    citas?: CitaCreateNestedManyWithoutMascotaInput
   }
 
   export type MascotasUncheckedCreateWithoutOwnerInput = {
@@ -5558,6 +7096,7 @@ export namespace Prisma {
     size?: string | null
     warning?: boolean | null
     description?: string | null
+    citas?: CitaUncheckedCreateNestedManyWithoutMascotaInput
   }
 
   export type MascotasCreateOrConnectWithoutOwnerInput = {
@@ -5622,6 +7161,30 @@ export namespace Prisma {
     create: XOR<ClienteCreateWithoutPetsInput, ClienteUncheckedCreateWithoutPetsInput>
   }
 
+  export type CitaCreateWithoutMascotaInput = {
+    id?: bigint | number
+    start_time: Date | string
+    end_time?: Date | string | null
+    description?: string | null
+  }
+
+  export type CitaUncheckedCreateWithoutMascotaInput = {
+    id?: bigint | number
+    start_time: Date | string
+    end_time?: Date | string | null
+    description?: string | null
+  }
+
+  export type CitaCreateOrConnectWithoutMascotaInput = {
+    where: CitaWhereUniqueInput
+    create: XOR<CitaCreateWithoutMascotaInput, CitaUncheckedCreateWithoutMascotaInput>
+  }
+
+  export type CitaCreateManyMascotaInputEnvelope = {
+    data: CitaCreateManyMascotaInput | CitaCreateManyMascotaInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ClienteUpsertWithoutPetsInput = {
     update: XOR<ClienteUpdateWithoutPetsInput, ClienteUncheckedUpdateWithoutPetsInput>
     create: XOR<ClienteCreateWithoutPetsInput, ClienteUncheckedCreateWithoutPetsInput>
@@ -5649,6 +7212,97 @@ export namespace Prisma {
     sec_phone?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
+  export type CitaUpsertWithWhereUniqueWithoutMascotaInput = {
+    where: CitaWhereUniqueInput
+    update: XOR<CitaUpdateWithoutMascotaInput, CitaUncheckedUpdateWithoutMascotaInput>
+    create: XOR<CitaCreateWithoutMascotaInput, CitaUncheckedCreateWithoutMascotaInput>
+  }
+
+  export type CitaUpdateWithWhereUniqueWithoutMascotaInput = {
+    where: CitaWhereUniqueInput
+    data: XOR<CitaUpdateWithoutMascotaInput, CitaUncheckedUpdateWithoutMascotaInput>
+  }
+
+  export type CitaUpdateManyWithWhereWithoutMascotaInput = {
+    where: CitaScalarWhereInput
+    data: XOR<CitaUpdateManyMutationInput, CitaUncheckedUpdateManyWithoutMascotaInput>
+  }
+
+  export type CitaScalarWhereInput = {
+    AND?: CitaScalarWhereInput | CitaScalarWhereInput[]
+    OR?: CitaScalarWhereInput[]
+    NOT?: CitaScalarWhereInput | CitaScalarWhereInput[]
+    id?: BigIntFilter<"Cita"> | bigint | number
+    mascotaId?: BigIntFilter<"Cita"> | bigint | number
+    start_time?: DateTimeFilter<"Cita"> | Date | string
+    end_time?: DateTimeNullableFilter<"Cita"> | Date | string | null
+    description?: StringNullableFilter<"Cita"> | string | null
+  }
+
+  export type MascotasCreateWithoutCitasInput = {
+    id?: bigint | number
+    created_at?: Date | string
+    name: string
+    breed?: string | null
+    prize?: number | null
+    size?: string | null
+    warning?: boolean | null
+    description?: string | null
+    owner: ClienteCreateNestedOneWithoutPetsInput
+  }
+
+  export type MascotasUncheckedCreateWithoutCitasInput = {
+    id?: bigint | number
+    created_at?: Date | string
+    name: string
+    ownerId: bigint | number
+    breed?: string | null
+    prize?: number | null
+    size?: string | null
+    warning?: boolean | null
+    description?: string | null
+  }
+
+  export type MascotasCreateOrConnectWithoutCitasInput = {
+    where: MascotasWhereUniqueInput
+    create: XOR<MascotasCreateWithoutCitasInput, MascotasUncheckedCreateWithoutCitasInput>
+  }
+
+  export type MascotasUpsertWithoutCitasInput = {
+    update: XOR<MascotasUpdateWithoutCitasInput, MascotasUncheckedUpdateWithoutCitasInput>
+    create: XOR<MascotasCreateWithoutCitasInput, MascotasUncheckedCreateWithoutCitasInput>
+    where?: MascotasWhereInput
+  }
+
+  export type MascotasUpdateToOneWithWhereWithoutCitasInput = {
+    where?: MascotasWhereInput
+    data: XOR<MascotasUpdateWithoutCitasInput, MascotasUncheckedUpdateWithoutCitasInput>
+  }
+
+  export type MascotasUpdateWithoutCitasInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    breed?: NullableStringFieldUpdateOperationsInput | string | null
+    prize?: NullableIntFieldUpdateOperationsInput | number | null
+    size?: NullableStringFieldUpdateOperationsInput | string | null
+    warning?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    owner?: ClienteUpdateOneRequiredWithoutPetsNestedInput
+  }
+
+  export type MascotasUncheckedUpdateWithoutCitasInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    ownerId?: BigIntFieldUpdateOperationsInput | bigint | number
+    breed?: NullableStringFieldUpdateOperationsInput | string | null
+    prize?: NullableIntFieldUpdateOperationsInput | number | null
+    size?: NullableStringFieldUpdateOperationsInput | string | null
+    warning?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type MascotasCreateManyOwnerInput = {
     id?: bigint | number
     created_at?: Date | string
@@ -5669,6 +7323,7 @@ export namespace Prisma {
     size?: NullableStringFieldUpdateOperationsInput | string | null
     warning?: NullableBoolFieldUpdateOperationsInput | boolean | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    citas?: CitaUpdateManyWithoutMascotaNestedInput
   }
 
   export type MascotasUncheckedUpdateWithoutOwnerInput = {
@@ -5680,6 +7335,7 @@ export namespace Prisma {
     size?: NullableStringFieldUpdateOperationsInput | string | null
     warning?: NullableBoolFieldUpdateOperationsInput | boolean | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    citas?: CitaUncheckedUpdateManyWithoutMascotaNestedInput
   }
 
   export type MascotasUncheckedUpdateManyWithoutOwnerInput = {
@@ -5690,6 +7346,34 @@ export namespace Prisma {
     prize?: NullableIntFieldUpdateOperationsInput | number | null
     size?: NullableStringFieldUpdateOperationsInput | string | null
     warning?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CitaCreateManyMascotaInput = {
+    id?: bigint | number
+    start_time: Date | string
+    end_time?: Date | string | null
+    description?: string | null
+  }
+
+  export type CitaUpdateWithoutMascotaInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CitaUncheckedUpdateWithoutMascotaInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CitaUncheckedUpdateManyWithoutMascotaInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 

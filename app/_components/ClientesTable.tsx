@@ -8,16 +8,28 @@ import ReModal from './ReModal';
 import { Cliente } from '../_model/Cliente';
 import ClienteCard from './ClienteCard';
 import ClienteForm from './ClienteForm';
+import { MascotaDto } from '../_model/MascotaDto';
+import MascotaDtoForm from './MascotaDtoForm';
+import EditIcon from './icons/EditIcon';
+import TrashIcon from './icons/TrashIcon';
+import PawIcon from './icons/PawIcon';
+import { deleteClienteAction } from '../_actions/clienteActions';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { deleteMascotaAction } from '../_actions/mascotasActions';
 
 interface Props {
   clientes: Cliente[];
 }
 
 export default function ClientesTable({ clientes }: Props) {
+  const router = useRouter();
   const [showMascotaForm, setshowMascotaForm] = useState(false);
+  const [showMascotaDtoForm, setshowMascotaDtoForm] = useState(false);
   const [showClienteCard, setshowClienteCard] = useState(false);
   const [showClienteForm, setShowClienteForm] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState(null);
+  const [selectedMascotaDto, setSelectedMascotaDto] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
 
   function openMascotaForm(clienteId) {
@@ -36,10 +48,19 @@ export default function ClientesTable({ clientes }: Props) {
     setShowClienteForm(true);
   }
 
-  function handleEdit(isEdit: boolean) {
+  function handleEdit(isEdit: boolean, clienteId: string) {
     setIsEdit(isEdit);
-    !isEdit && setSelectedCliente(null);
+    !isEdit
+      ? setSelectedCliente(null)
+      : setSelectedCliente(
+          clientes.find((cliente) => cliente.id === clienteId)
+        );
     openClienteForm();
+  }
+
+  function handleMascotaDtoEdit(mascotaDto: MascotaDto) {
+    setSelectedMascotaDto(mascotaDto);
+    setshowMascotaDtoForm(true);
   }
 
   function onClose() {
@@ -47,6 +68,27 @@ export default function ClientesTable({ clientes }: Props) {
     showMascotaForm && setshowMascotaForm(false);
     showClienteCard && setshowClienteCard(false);
     showClienteForm && setShowClienteForm(false);
+    showMascotaDtoForm && setshowMascotaDtoForm(false);
+  }
+
+  async function handleDelete(clienteId: string) {
+    const result = await deleteClienteAction(clienteId);
+    if (result.success) {
+      toast.success(result.message);
+      router.refresh();
+    } else {
+      toast.error(result.message);
+    }
+  }
+
+  async function handleDeleteMascota(mascotaId: string) {
+    const result = await deleteMascotaAction(mascotaId);
+    if (result.success) {
+      toast.success(result.message);
+      router.refresh();
+    } else {
+      toast.error(result.message);
+    }
   }
 
   return (
@@ -68,7 +110,7 @@ export default function ClientesTable({ clientes }: Props) {
                 <div className="flex mx-4 justify-end border rounded-full border-background-50 hover:bg-background-50">
                   <button
                     className="w-full px-4 font-semibold text-xl text-background-50 hover:text-white"
-                    onClick={() => handleEdit(false)}
+                    onClick={() => handleEdit(false, null)}
                   >
                     Nuevo Cliente
                   </button>
@@ -95,7 +137,7 @@ export default function ClientesTable({ clientes }: Props) {
                       Mascotas
                     </th>
                     <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
-                      Administrar Mascota
+                      Administrar
                     </th>
                   </tr>
                 </thead>
@@ -132,15 +174,12 @@ export default function ClientesTable({ clientes }: Props) {
                       >
                         {truncateText(listMascotas(cliente.pets, cliente), 16)}
                       </td>
-                      <td className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 font-semibold">
-                        <div className="flex max-w-40 justify-center border rounded-full border-background-50 hover:bg-background-50">
-                          <button
-                            className="font-semibold text-lg px-4 text-background-50 hover:text-white w-full"
-                            onClick={() => openMascotaForm(cliente.id)}
-                          >
-                            Nueva Mascota
-                          </button>
-                        </div>
+                      <td className="flex gap-6 border-t-0 px-8 align-middle border-l-0 border-r-0 text-lg whitespace-nowrap p-4 font-semibold">
+                        <EditIcon
+                          onClick={() => handleEdit(true, cliente.id)}
+                        />
+                        <PawIcon onClick={() => openMascotaForm(cliente.id)} />
+                        <TrashIcon onClick={() => handleDelete(cliente.id)} />
                       </td>
                     </tr>
                   ))}
@@ -152,11 +191,20 @@ export default function ClientesTable({ clientes }: Props) {
       </section>
       {showMascotaForm && (
         <ReModal
-          title={'Añadir nuevo Cliente'}
+          title={'Añadir nueva mascota'}
           onClose={onClose}
           showModal={showMascotaForm}
         >
           <MascotaForm cliente={selectedCliente} redirectTo="/clientes" />
+        </ReModal>
+      )}
+      {showMascotaDtoForm && (
+        <ReModal
+          title={'Editar Mascota'}
+          onClose={onClose}
+          showModal={showMascotaDtoForm}
+        >
+          <MascotaDtoForm mascotaDto={selectedMascotaDto} onClose={onClose} />
         </ReModal>
       )}
       {showClienteCard && (
@@ -165,7 +213,11 @@ export default function ClientesTable({ clientes }: Props) {
           onClose={onClose}
           showModal={showClienteCard}
         >
-          <ClienteCard cliente={selectedCliente} onEdit={handleEdit} />
+          <ClienteCard
+            cliente={selectedCliente}
+            onEdit={handleEdit}
+            onEditMascota={handleMascotaDtoEdit}
+          />
         </ReModal>
       )}
       {showClienteForm && (

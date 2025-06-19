@@ -147,6 +147,14 @@ exports.Prisma.MascotasScalarFieldEnum = {
   description: 'description'
 };
 
+exports.Prisma.CitaScalarFieldEnum = {
+  id: 'id',
+  mascotaId: 'mascotaId',
+  start_time: 'start_time',
+  end_time: 'end_time',
+  description: 'description'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -166,7 +174,8 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   Usuario: 'Usuario',
   Cliente: 'Cliente',
-  Mascotas: 'Mascotas'
+  Mascotas: 'Mascotas',
+  Cita: 'Cita'
 };
 
 /**

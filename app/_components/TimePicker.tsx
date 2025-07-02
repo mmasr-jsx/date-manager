@@ -15,10 +15,14 @@ export default function TimePicker({
   onChange,
   className = '',
 }: TimePickerProps) {
+  // When we use _ as an object value, it's a usual practice to let it know that we don't really use the object value in our callback function
   const timeOptions = Array.from({ length: 48 }, (_, i) => {
     const hour = Math.floor(i / 2);
     const minute = i % 2 === 0 ? '00' : '30';
     return `${hour.toString().padStart(2, '0')}:${minute}`;
+  }).filter((time) => {
+    const [hour] = time.split(':').map(Number);
+    return hour >= 8 && hour <= 20;
   });
 
   return (

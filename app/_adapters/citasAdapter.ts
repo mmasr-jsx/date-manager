@@ -21,13 +21,11 @@ export function adaptCitasList(citas: any[]): Cita[] {
 }
 
 export function createDateTime(dateStr: string, timeStr: string): Date {
-  // Asegurarnos de que la fecha se crea en UTC
   const [year, month, day] = dateStr.split('-').map(Number);
-  const [hours, minutes] = timeStr.split(':').map(Number);
+  const [hour, minute] = timeStr.split(':').map(Number);
 
-  // Crear la fecha en UTC
-  const date = new Date(Date.UTC(year, month - 1, day, hours, minutes, 0));
-  console.log('createDateTime input:', { dateStr, timeStr });
-  console.log('createDateTime output:', date.toISOString());
+  // To avoid A LOT of errors working with timeZones, is a good practice to work directly with UTC dates
+  const date = new Date(Date.UTC(year, month - 1, day, hour, minute));
+
   return date;
 }

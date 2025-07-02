@@ -64,7 +64,7 @@ export default function ClienteCard({
             src={cardImage}
             alt="Sunset in the mountains"
           />
-          <div className="absolute bottom-0 right-0 mb-6 mr-6 rounded-full h-16 w-16 flex items-center bg-background-150 justify-center text-4xl text-white shadow-2xl font-bold">
+          <div className="absolute bottom-0 right-0 mb-6 mr-6 rounded-full h-16 w-16 flex items-center bg-detail-0 justify-center text-4xl text-white shadow-2xl font-bold">
             <EditIcon onClick={() => onEdit(true, cliente.id)} />
           </div>
           <div className="contenedor">
@@ -72,16 +72,16 @@ export default function ClienteCard({
           </div>
         </div>
         <div className="pt-3 pb-5 px-5 flex flex-col items-center">
-          <p className="font-bold text-3xl text-background-50">
+          <p className="font-bold text-3xl text-detail-0">
             {cliente.name ? stringToUppercase(cliente.name) : ''}
           </p>
-          <p className="mb-2 font-semibold text-background-50 text-xl">
+          <p className="mb-2 font-semibold text-detail-0 text-xl">
             {cliente.last_name ? stringToUppercase(cliente.last_name) : ''}
           </p>
         </div>
       </div>
       <div className="flex-1 rounded shadow-lg px-5 h-full">
-        <div className="flex font-bold text-2xl items-center justify-center h-12 text-white  bg-background-50  rounded-xl shadow-md">
+        <div className="flex font-bold text-2xl items-center justify-center h-12 text-white  bg-detail-0  rounded-xl shadow-md">
           <h2>Datos del Cliente</h2>
         </div>
         <div className="pt-5 pl-8">
@@ -101,7 +101,7 @@ export default function ClienteCard({
             </p>
           </div>
         </div>
-        <div className="flex font-bold text-2xl items-center justify-center h-12 text-white bg-background-50 rounded-xl shadow-md mt-4 gap-4">
+        <div className="flex font-bold text-2xl items-center justify-center h-12 text-white bg-detail-0 rounded-xl shadow-md mt-4 gap-4">
           <h2>Peludos del Cliente</h2>
           <DogIcon fill="#ffff" />
         </div>

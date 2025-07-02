@@ -37,3 +37,39 @@ img {
   font-size: 1rem;
   padding: 8px;
 }
+
+/* app/globals.css o un archivo CSS similar */
+
+/* Estilo por defecto para todos los eventos de FullCalendar */
+.fc-event {
+  background-color: #149fa9 !important; /* Tu color deseado */
+  border-color: #149fa9 !important; /* Borde del mismo color */
+  color: white !important; /* Color del texto del evento */
+  border-radius: 4px; /* Opcional: bordes redondeados */
+  opacity: 0.9; /* Opcional: ligera transparencia */
+  transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Transición suave para el hover */
+}
+
+/* Efecto de hover/mouseover */
+.fc-event:hover {
+  background-color: #0d7a81 !important; /* Un tono más oscuro al pasar el ratón */
+  border-color: #0d7a81 !important; /* Borde también más oscuro */
+  opacity: 1; /* Quita la transparencia al hacer hover */
+  cursor: pointer; /* Cambia el cursor a una mano */
+}
+
+/* Asegurar que el título también respeta el color de texto */
+.fc-event-title,
+.fc-event-time {
+  color: white !important; /* Asegura que el texto dentro del evento sea blanco */
+}
+
+/* Para la vista de mes, a veces los puntos de evento son pequeños */
+/* Esto puede ayudar a que el color de fondo sea más visible */
+.fc .fc-daygrid-event {
+  display: flex; /* Usar flexbox para mejor control del contenido */
+  align-items: center; /* Centrar verticalmente el contenido */
+  padding: 2px 4px; /* Un poco de padding */
+  margin-bottom: 2px; /* Espacio entre eventos */
+  white-space: normal; /* Permitir que el texto se ajuste */
+}

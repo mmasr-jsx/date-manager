@@ -73,12 +73,12 @@ export default function MascotasTable({ mascotasList }: Props) {
         <div className="w-full mb-12 px-4">
           <div
             className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded 
-          bg-white text-background-50"
+          bg-white text-detail-0"
           >
             <div className="mb-0 py-3 border-0">
               <div className="flex flex-wrap items-center">
                 <div className="relativ px-4 flex-grow flex-1 ">
-                  <h3 className="font-semibold text-3xl text-background-50">
+                  <h3 className="font-semibold text-3xl text-detail-0">
                     Mis Peludos
                   </h3>
                 </div>
@@ -88,28 +88,28 @@ export default function MascotasTable({ mascotasList }: Props) {
               <table className="items-center w-full bg-transparent border-collapse">
                 <thead>
                   <tr>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Mascota
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Dueño
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Telefono
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Raza
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Tamaño
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       prize
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       warning
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Decripcion
                     </th>
                   </tr>

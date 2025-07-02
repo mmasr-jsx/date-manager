@@ -36,7 +36,10 @@ export default function WarningIcon({
         strokeLinejoin="round"
         strokeWidth="32px"
       />
-      <path d="M256,397.25a20,20,0,1,1,20-20A20,20,0,0,1,256,397.25Z" />
+      <path
+        d="M256,397.25a20,20,0,1,1,20-20A20,20,0,0,1,256,397.25Z"
+        fill={stroke}
+      />
     </svg>
   );
 }

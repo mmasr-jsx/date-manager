@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { MascotaDto } from '../_model/MascotaDto';
 import { Cita } from '../_model/Cita';
-import { getMascotasAction } from '../_actions/mascotasActions';
 import {
   createCitaAction,
   updateCitaAction,
@@ -11,8 +10,6 @@ import {
 } from '../_actions/citasActions';
 import { SubmitButton } from './SubmitButton';
 import { toast } from 'sonner';
-import { toMascotasDtoList } from '../_utils/clientesUtils';
-import { getClientesAction } from '../_actions/clienteActions';
 import TimePicker from './TimePicker';
 import { createDateTime } from '../_adapters/citasAdapter';
 
@@ -21,6 +18,8 @@ interface Props {
   selectedDate?: string;
   onClose: () => void;
   onSave: (cita: Cita) => void;
+  onDelete: (id: string) => void;
+  mascotas: MascotaDto[];
 }
 
 export default function CitaForm({
@@ -28,10 +27,9 @@ export default function CitaForm({
   selectedDate,
   onClose,
   onSave,
+  onDelete,
+  mascotas,
 }: Props) {
-  const [mascotas, setMascotas] = useState<MascotaDto[]>([]);
-  const [loadingMascotas, setLoadingMascotas] = useState(true);
-
   const parseStartDateTime = (date?: Date | string) => {
     if (!date) return { dateStr: '', timeStr: '' };
     const d = typeof date === 'string' ? new Date(date) : date;
@@ -73,22 +71,20 @@ export default function CitaForm({
         }
   );
 
+  const [selectedMascota, setSelectedMascota] = useState<
+    MascotaDto | undefined
+  >(undefined);
+
   useEffect(() => {
-    async function loadMascotas() {
-      try {
-        const mascotasData = await getMascotasAction();
-        const clientesData = await getClientesAction();
-        const mascotasDto = toMascotasDtoList(clientesData, mascotasData);
-        setMascotas(mascotasDto);
-      } catch (error) {
-        console.error('Error al cargar las mascotas:', error);
-        toast.error('Error al cargar las mascotas.');
-      } finally {
-        setLoadingMascotas(false);
-      }
+    if (formData.mascotaId) {
+      const foundMascota = mascotas.find(
+        (m) => String(m.id) === formData.mascotaId
+      );
+      setSelectedMascota(foundMascota);
+    } else {
+      setSelectedMascota(undefined);
     }
-    loadMascotas();
-  }, []);
+  }, [formData.mascotaId, mascotas]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -96,23 +92,21 @@ export default function CitaForm({
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => {
+      const newFormData = {
+        ...prev,
+        [name]: value,
+      };
+      return newFormData;
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log(formData.startTime, 'startTime');
-    console.log(formData.endTime, 'endTime');
-
     const startDateTime = createDateTime(
       formData.startDate,
       formData.startTime
     );
-    console.log(startDateTime, 'startDateTime');
     let endDateTime: Date | undefined = undefined;
     if (formData.endTime) {
       endDateTime = createDateTime(formData.startDate, formData.endTime);
@@ -149,7 +143,6 @@ export default function CitaForm({
         end_time: endDateTime,
         description: formData.description || null,
       };
-      console.log(dataToSave, 'dataToSave');
 
       if (initialCita?.id) {
         result = await updateCitaAction(dataToSave);
@@ -180,7 +173,7 @@ export default function CitaForm({
         const result = await deleteCitaAction(String(initialCita.id));
         if (result.success) {
           toast.success(result.message);
-          onSave({ ...initialCita, id: undefined });
+          onDelete(initialCita.id);
           onClose();
         } else {
           toast.error(result.message);
@@ -191,10 +184,6 @@ export default function CitaForm({
       }
     }
   };
-
-  if (loadingMascotas) {
-    return <div>Cargando mascotas...</div>;
-  }
 
   return (
     <form onSubmit={handleSubmit} className="p-4 space-y-4">
@@ -227,6 +216,26 @@ export default function CitaForm({
           ))}
         </select>
       </div>
+      {initialCita ? (
+        <div className="space-y-4">
+          <div className="flex flex-col">
+            <label className="block text-lg font-medium text-gray-700">
+              Teléfono
+            </label>
+            {selectedMascota?.phone ? (
+              <span className="mt-1 text-base text-gray-500 sm:text-lg">
+                {selectedMascota.phone}
+              </span>
+            ) : (
+              <span className="mt-1 text-base text-gray-500 sm:text-lg">
+                N/A
+              </span>
+            )}
+          </div>
+        </div>
+      ) : (
+        ''
+      )}
 
       <div>
         <label
@@ -298,13 +307,15 @@ export default function CitaForm({
       <div className="flex gap-8">
         <div className="flex justify-start">
           {initialCita?.id && (
-            <button
-              type="button"
-              onClick={handleDelete}
-              className="px-4 py-2 border rounded-md shadow-sm text-lg font-medium text-gray-50 bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Eliminar
-            </button>
+            <>
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="px-4 py-2 border rounded-md shadow-sm text-lg font-medium text-gray-50 bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Eliminar
+              </button>
+            </>
           )}
         </div>
         <div className="flex justify-end space-x-2">

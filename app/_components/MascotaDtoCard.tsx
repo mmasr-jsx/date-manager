@@ -39,7 +39,7 @@ export default function MascotaDtoCard({
             src={cardImage}
             alt="Sunset in the mountains"
           />
-          <div className="absolute bottom-0 right-0 mb-6 mr-6 rounded-full h-16 w-16 flex items-center bg-background-150 justify-center text-4xl text-white shadow-2xl font-bold">
+          <div className="absolute bottom-0 right-0 mb-6 mr-6 rounded-full h-16 w-16 flex items-center bg-detail-0 justify-center text-4xl text-white shadow-2xl font-bold">
             <EditIcon onClick={onEdit} />
           </div>
           <div className="contenedor">
@@ -47,16 +47,16 @@ export default function MascotaDtoCard({
           </div>
         </div>
         <div className="pt-3 pb-5 px-5 flex flex-col items-center">
-          <p className="font-bold text-3xl text-background-50">
+          <p className="font-bold text-3xl text-detail-0">
             {mascotaDto.name ? stringToUppercase(mascotaDto.name) : ''}
           </p>
-          <p className="mb-2 font-semibold text-background-50 text-xl">
+          <p className="mb-2 font-semibold text-detail-0 text-xl">
             {mascotaDto.breed ? stringToUppercase(mascotaDto.breed) : ''}
           </p>
         </div>
       </div>
       <div className="flex-1 rounded shadow-lg px-5 h-full">
-        <div className="flex font-bold text-2xl items-center justify-center h-12 text-white bg-background-50 rounded-xl shadow-md">
+        <div className="flex font-bold text-2xl items-center justify-center h-12 text-white bg-detail-0 rounded-xl shadow-md">
           <h2>Datos del Cliente</h2>
         </div>
         <div className="pt-5 pl-8">
@@ -83,7 +83,7 @@ export default function MascotaDtoCard({
             <p className="ps-4">Tamaño {mascotaDtoSize}</p>
           </div>
         </div>
-        <div className="flex font-bold text-2xl items-center justify-center h-12 mt-4 text-white bg-background-50 rounded-xl shadow-md">
+        <div className="flex font-bold text-2xl items-center justify-center h-12 mt-4 text-white bg-detail-0 rounded-xl shadow-md">
           <h2 className="mr-4">Notas</h2>
           {mascotaDto.warning ? <WarningIcon fill="#FBBF24" /> : null}
         </div>

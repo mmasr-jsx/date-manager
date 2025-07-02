@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 export default function CardService({
   backgroundImage,
@@ -10,17 +10,17 @@ export default function CardService({
     <div
       className={`${
         reverse
-          ? "w-3/5 h-1/4 place-self-center flex flex-row-reverse shadow-xl bg-background-1 border border-background-1"
-          : "w-3/5 h-1/4 place-self-center flex shadow-xl bg-background-1"
+          ? 'w-4/5 h-1/5 place-self-center flex flex-row-reverse shadow-xl'
+          : 'w-4/5 h-1/5 place-self-center flex shadow-xl'
       }`}
     >
-      <div className="flex-1 items-center px-10 ps-10 pt-5 bg-white">
-        <div className="shadow-md bg-background-0 h-1/6 grid place-items-center rounded-full">
-          <h2 className="font-bold text-2xl text-background-50">{title}</h2>
+      <div className="flex flex-1 flex-col items-center justify-center px-10 ps-10 pt-5 bg-detail-50">
+        <div className="flex items-center justify-center bg-background-0 w-2/3 rounded-full mb-16">
+          <h2 className="font-bold text-4xl text-center text-detail-0 m-4">
+            {title}
+          </h2>
         </div>
-        <div className="mt-10 ps-2 px-2 font-semibold ">
-          <p className="text-lg">{content}</p>
-        </div>
+        <p className="text-xl text-white text-center">{content}</p>
       </div>
       <div className="flex-1 h-full">
         <Image

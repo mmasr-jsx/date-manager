@@ -13,7 +13,7 @@ export default function EditIcon({
 }: Props) {
   return (
     <svg
-      className="feather feather-edit cursor-pointer hover:stroke-warning-500"
+      className="feather feather-edit cursor-pointer hover:stroke-warning-400"
       fill="none"
       height={height}
       stroke={stroke}

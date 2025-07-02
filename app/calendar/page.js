@@ -1,12 +1,12 @@
-import Calendar from "../_components/Calendar";
+import Calendar from '../_components/Calendar';
 
 export const metadata = {
-  title: "Calendario",
+  title: 'Calendario',
 };
 
 export default function Page() {
   return (
-    <div className="w-5/6 place-self-center px-20 py-12 bg-white">
+    <div className="w-full place-self-center px-28 py-24 bg-white">
       <Calendar />
     </div>
   );

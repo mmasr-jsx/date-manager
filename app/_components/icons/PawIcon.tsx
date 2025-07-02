@@ -26,7 +26,7 @@ export default function PawIcon({
         transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)"
         fill={fill}
         stroke="none"
-        className="hover:fill-background-200 hover:stroke-background-200"
+        className="hover:fill-detail-0 hover:stroke-detail-0"
       >
         <path
           d="M315 950 c-49 -20 -95 -100 -95 -164 0 -95 76 -206 141 -206 66 0

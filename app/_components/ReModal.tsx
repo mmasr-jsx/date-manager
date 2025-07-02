@@ -45,9 +45,7 @@ export default function ReModal({
         <div className="fixed rounded flex flex-col box-border min-w-fit overflow-hidden p-8 bg-white inset-y-auto inset-x-12 sm:inset-x-24 md:inset-x-1/4 top-1/2 -translate-y-1/2 z-50 opacity-100">
           <div className="w-full min-h-[10%] flex flex-nowrap items-center mb-4 p-3 shadow-lg">
             <div className="flex-1 grid place-items-center">
-              <h1 className="text-4xl text-background-50 font-semibold">
-                {title}
-              </h1>
+              <h1 className="text-4xl text-detail-0 font-semibold">{title}</h1>
             </div>
             <div className="flex-1 grid justify-items-end place-items-center px-5">
               <button

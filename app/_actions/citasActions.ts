@@ -24,6 +24,7 @@ export async function createCitaAction(cita: Cita) {
         description: cita.description || null,
       },
     });
+    console.log('create new cita', newCita);
     const adaptedNewCita = adaptCita(newCita);
     return {
       message: 'Cita creada exitosamente',
@@ -43,8 +44,8 @@ export async function createCitaAction(cita: Cita) {
 export async function updateCitaAction(cita: Cita) {
   try {
     console.log('updateCitaAction input:', {
-      start_time: cita.start_time.toISOString(),
-      end_time: cita.end_time?.toISOString(),
+      start_time: cita.start_time,
+      end_time: cita.end_time,
     });
 
     const updatedCita = await prisma.cita.update({
@@ -55,11 +56,6 @@ export async function updateCitaAction(cita: Cita) {
         end_time: cita.end_time || null,
         description: cita.description || null,
       },
-    });
-
-    console.log('updateCitaAction prisma result:', {
-      start_time: updatedCita.start_time.toISOString(),
-      end_time: updatedCita.end_time?.toISOString(),
     });
 
     const adaptedCita = adaptCita(updatedCita);

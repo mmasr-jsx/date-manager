@@ -32,7 +32,7 @@ export default function SlimMascotaCard({
             <WarningIcon fill="#FBBF24" />
           </span>
         )}
-        <h3 className="text-xl font-semibold text-background-50">
+        <h3 className="text-xl font-semibold text-detail-0">
           {stringToUppercase(mascota.name)}
         </h3>
         <div className="flex items-center gap-2">

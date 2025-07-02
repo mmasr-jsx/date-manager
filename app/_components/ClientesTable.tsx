@@ -97,19 +97,19 @@ export default function ClientesTable({ clientes }: Props) {
         <div className="w-full mb-12 px-4">
           <div
             className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded 
-              bg-white text-background-50"
+              bg-white text-detail-0"
           >
             <div className="mb-0 py-3 border-0">
               <div className="flex flex-wrap items-center">
                 <div className="relativ px-4 flex-grow flex-1 ">
-                  <h3 className="font-semibold text-3xl text-background-50">
+                  <h3 className="font-semibold text-3xl text-detail-0">
                     Mis Clientes
                   </h3>
                 </div>
 
-                <div className="flex mx-4 justify-end border rounded-full border-background-50 hover:bg-background-50">
+                <div className="flex mx-4 justify-end border rounded-full border-detail-0 hover:bg-detail-0">
                   <button
-                    className="w-full px-4 font-semibold text-xl text-background-50 hover:text-white"
+                    className="w-full px-4 font-semibold text-xl text-detail-0 hover:text-white"
                     onClick={() => handleEdit(false, null)}
                   >
                     Nuevo Cliente
@@ -121,22 +121,22 @@ export default function ClientesTable({ clientes }: Props) {
               <table className="items-center w-full bg-transparent border-collapse">
                 <thead>
                   <tr>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Nombre
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Apellidos
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Telefono
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Segundo Contacto
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Mascotas
                     </th>
-                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-background-50 text-white border-background-100">
+                    <th className="px-6 align-middle border border-solid py-3 text-xl uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-detail-0 text-white border-detail-0">
                       Administrar
                     </th>
                   </tr>

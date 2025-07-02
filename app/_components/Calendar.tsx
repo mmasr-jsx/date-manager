@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction'; // Para editar eventos
+import interactionPlugin from '@fullcalendar/interaction';
 import ReModal from './ReModal';
-import CitaForm from './CitaForm';
 import { getCitasAction, updateCitaAction } from '../_actions/citasActions';
 import { getMascotasAction } from '../_actions/mascotasActions';
 import { Cita } from '../_model/Cita';
@@ -14,10 +13,12 @@ import { MascotaDto } from '../_model/MascotaDto';
 import { toMascotasDtoList } from '../_utils/clientesUtils';
 import { getClientesAction } from '../_actions/clienteActions';
 import { toast } from 'sonner';
+import { truncateText } from '../_utils/utils';
+
+const LazyCitaForm = lazy(() => import('./CitaForm'));
 
 export default function Calendar() {
   const [events, setEvents] = useState<any[]>([]);
-  const [calendarView, setCalendarView] = useState('time');
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | undefined>(
     undefined
@@ -26,6 +27,8 @@ export default function Calendar() {
   const [mascotasMap, setMascotasMap] = useState<Map<string, MascotaDto>>(
     new Map()
   );
+  const [mascotasList, setMascotasList] = useState<MascotaDto[]>([]);
+  const [loadingInitialData, setLoadingInitialData] = useState(true);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -58,8 +61,13 @@ export default function Calendar() {
     ]);
   };
 
+  const handleDeleteCita = (id: string) => {
+    const newEvents = events.filter((e) => e.id !== id);
+    setEvents(newEvents);
+  };
+
   useEffect(() => {
-    async function loadCitasAndMascotas() {
+    async function loadInitialData() {
       try {
         const [citasData, mascotasRawData, clientesData] = await Promise.all([
           getCitasAction(),
@@ -71,6 +79,7 @@ export default function Calendar() {
         const map = new Map<string, MascotaDto>();
         mascotasDto.forEach((m) => map.set(m.id, m));
         setMascotasMap(map);
+        setMascotasList(mascotasDto);
 
         const formattedEvents = citasData.map((cita) => {
           const mascota = map.get(cita.mascotaId);
@@ -96,26 +105,31 @@ export default function Calendar() {
         });
         setEvents(formattedEvents);
       } catch (error) {
-        console.error('Error al cargar citas o mascotas:', error);
+        console.error('Error al cargar datos iniciales:', error);
+        toast.error('Error al cargar datos iniciales.');
+      } finally {
+        setLoadingInitialData(false);
       }
     }
-    loadCitasAndMascotas();
+    loadInitialData();
   }, []);
 
   const handleDateClick = async (info: any) => {
     setSelectedDate(info.dateStr);
+    setCurrentCita(undefined); // Asegurarse de que es una nueva cita
     setShowModal(true);
   };
 
   const handleEventDrop = async (info: any) => {
     const event = info.event;
-    const newDate = new Date(event.start);
+    // Recrear la fecha desde el ISO string para asegurar la zona horaria UTC
+    const newDate = new Date(event.start.toISOString());
 
     const updatedCita: Cita = {
       id: event.id,
       mascotaId: String(event.extendedProps.mascotaId),
       start_time: newDate,
-      end_time: event.end ? new Date(event.end) : undefined,
+      end_time: event.end ? new Date(event.end.toISOString()) : undefined, // Asegurar también para end_time
       description: event.extendedProps.description || null,
     };
 
@@ -123,7 +137,25 @@ export default function Calendar() {
       const result = await updateCitaAction(updatedCita);
       if (result.success) {
         toast.success(result.message);
-        console.log('Cita actualizada exitosamente:', result.data);
+        const updatedEventIndex = events.findIndex(
+          (e) => e.id === result.data.id
+        );
+        if (updatedEventIndex > -1) {
+          const updatedEvents = [...events];
+          const updatedMascota = mascotasMap.get(result.data.mascotaId);
+          const updatedTitle = updatedMascota
+            ? `${updatedMascota.name} - ${updatedMascota.owner} ${
+                updatedMascota.owner_lastName || ''
+              }`.trim()
+            : `Cita ${result.data.id}`;
+          updatedEvents[updatedEventIndex] = {
+            ...updatedEvents[updatedEventIndex],
+            start: result.data.start_time.toISOString(),
+            end: result.data.end_time?.toISOString(),
+            title: updatedTitle,
+          };
+          setEvents(updatedEvents);
+        }
       } else {
         toast.error('Error al actualizar la cita');
         console.error('Error al actualizar la cita', result.message);
@@ -143,6 +175,9 @@ export default function Calendar() {
       mascotaId: event.extendedProps.mascotaId,
       start_time: event.start ? new Date(event.start) : undefined,
       end_time: event.end ? new Date(event.end) : undefined,
+      /*       // Recrear las fechas desde el ISO string para asegurar la zona horaria UTC
+      start_time: event.start ? new Date(event.start.toISOString()) : undefined,
+      end_time: event.end ? new Date(event.end.toISOString()) : undefined, */
       description: event.extendedProps.description,
     };
 
@@ -150,14 +185,26 @@ export default function Calendar() {
       const result = await updateCitaAction(updatedCita);
       if (result.success) {
         toast.success(result.message);
-        console.log('Cita actualizada exitosamente:', result.data);
+        // Actualizar el evento en el estado de FullCalendar
+        const updatedEventIndex = events.findIndex(
+          (e) => e.id === result.data.id
+        );
+        if (updatedEventIndex > -1) {
+          const updatedEvents = [...events];
+          updatedEvents[updatedEventIndex] = {
+            ...updatedEvents[updatedEventIndex],
+            start: result.data.start_time.toISOString(),
+            end: result.data.end_time?.toISOString(),
+          };
+          setEvents(updatedEvents);
+        }
       } else {
         toast.error('Error al actualizar la cita');
         console.error('Error al actualizar la cita:', result.message);
         info.revert();
       }
     } catch (error) {
-      toast.error('Error al actualizar la cita:', error);
+      toast.error('Error al actualizar la cita:');
       console.error('Error al actualizar la cita:', error);
       info.revert();
     }
@@ -176,6 +223,14 @@ export default function Calendar() {
       setShowModal(true);
     }
   };
+
+  if (loadingInitialData) {
+    return (
+      <div className="flex items-center justify-center h-screen text-xl">
+        Cargando calendario...
+      </div>
+    );
+  }
 
   return (
     <>
@@ -212,22 +267,60 @@ export default function Calendar() {
           minute: '2-digit',
           hour12: false,
           meridiem: false,
+          timeZone: 'UTC',
         }}
         displayEventTime={true}
         allDaySlot={false}
-        timeZone="UTC"
+        eventDisplay="block"
+        eventContent={(eventInfo) => {
+          const event = eventInfo.event;
+          const startTime = event.start
+            ? event.start.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+                timeZone: 'UTC',
+              })
+            : '';
+          const endTime = event.end
+            ? event.end.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+                timeZone: 'UTC',
+              })
+            : '';
+
+          const timeRange = endTime ? `${startTime}-${endTime}` : startTime;
+
+          return {
+            html: `
+              <div class="fc-event-main-frame overflow-hidden">
+                <div class="fc-event-title-container">
+                  <div class="fc-event-title fc-sticky">
+                    ${timeRange} ${truncateText(event.title, 14)}
+                  </div>
+                </div>
+              </div>
+            `,
+          };
+        }}
       />
       <ReModal
         showModal={showModal}
         onClose={handleCloseModal}
         title={currentCita ? 'Editar Cita' : 'Nueva Cita'}
       >
-        <CitaForm
-          initialCita={currentCita}
-          selectedDate={selectedDate}
-          onClose={handleCloseModal}
-          onSave={handleSaveCita}
-        />
+        <Suspense fallback={<div>Cargando formulario...</div>}>
+          <LazyCitaForm
+            initialCita={currentCita}
+            selectedDate={selectedDate}
+            onClose={handleCloseModal}
+            onSave={handleSaveCita}
+            onDelete={handleDeleteCita}
+            mascotas={mascotasList}
+          />
+        </Suspense>
       </ReModal>
     </>
   );

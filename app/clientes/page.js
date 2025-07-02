@@ -10,7 +10,7 @@ export default async function Page() {
     const clientes = await getClientesAction();
 
     return (
-      <div className="w-5/6 place-self-center px-20">
+      <div className="w-5/6 place-self-center px-28 py-12">
         <ClientesTable clientes={clientes} />
       </div>
     );

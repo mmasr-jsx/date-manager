@@ -39,7 +39,7 @@ export default function Slider() {
   }, []);
 
   return (
-    <div className="relative w-full h-[500px] overflow-hidden">
+    <div className="relative w-full h-1/5 overflow-hidden">
       {slides.map((slide, index) => (
         <div
           key={slide.id}
@@ -47,7 +47,7 @@ export default function Slider() {
             index === currentSlide ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <div className="absolute inset-0 bg-detail-0 bg-opacity-80 flex">
+          <div className="absolute inset-0 bg-detail-0 flex">
             <div className="w-3/5 flex items-center justify-center text-white">
               <div className="text-center p-8">
                 <h2 className="text-5xl font-bold mb-4">{slide.title}</h2>

@@ -2,12 +2,14 @@ interface Props {
   fill?: string;
   width?: string;
   height?: string;
+  className?: string;
 }
 
 export default function PhoneIcon({
   fill = '#388585',
   width = '48px',
   height = '48px',
+  className = '',
 }: Props) {
   return (
     <svg
@@ -15,6 +17,7 @@ export default function PhoneIcon({
       height={height}
       viewBox="-2 1 20 12"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <path
         fill={fill}

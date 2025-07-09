@@ -91,3 +91,47 @@ export async function deleteCitaAction(id: string) {
     };
   }
 }
+
+export async function getTomorrowCitasAction() {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const dayAfterTomorrow = new Date(today);
+    dayAfterTomorrow.setDate(today.getDate() + 2);
+
+    const citas = await prisma.cita.findMany({
+      where: {
+        start_time: {
+          gte: tomorrow,
+          lt: dayAfterTomorrow,
+        },
+      },
+      include: {
+        mascota: {
+          include: {
+            owner: true,
+          },
+        },
+      },
+      orderBy: {
+        start_time: 'asc',
+      },
+    });
+
+    return citas.map((cita) => ({
+      id: cita.id,
+      mascotaName: cita.mascota.name,
+      clientName:
+        cita.mascota.owner?.name + ' ' + cita.mascota.owner?.last_name,
+      clientPhone: cita.mascota.owner?.phone?.toString(),
+      startTime: cita.start_time,
+      endTime: cita.end_time || null,
+      description: cita.description || null,
+    }));
+  } catch (error) {
+    console.error('Error al obtener citas para mañana:', error);
+    throw new Error('Error al cargar las citas para mañana');
+  }
+}

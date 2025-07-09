@@ -12,7 +12,6 @@ export default function Page() {
 
   return (
     <>
-      <Slider />
       <div className="w-3/5 place-self-center px-20">
         <Image
           src={bgLogo}
@@ -21,6 +20,7 @@ export default function Page() {
           priority
         />
       </div>
+      <Slider />
 
       <CardService
         backgroundImage={bgsLogo}

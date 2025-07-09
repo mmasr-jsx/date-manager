@@ -33,7 +33,7 @@ export default function Navigation() {
             </li>
             <li>
               <Link
-                href="/calendar"
+                href="/calendario"
                 className="hover:text-accent-400 transition-colors"
               >
                 Calendario
@@ -45,8 +45,11 @@ export default function Navigation() {
         )}
 
         <li>
-          <Link href="/" className="hover:text-accent-400 transition-colors">
-            About us
+          <Link
+            href="/recordatorio"
+            className="hover:text-accent-400 transition-colors"
+          >
+            Recordatorios
           </Link>
         </li>
         <li>
